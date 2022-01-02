@@ -1,11 +1,11 @@
 import { Navbar } from '../components/compositional/Navbar';
 import React from 'react';
 
-export const DefaultLayout = ({children}) => {
+export const DefaultLayout = ({children, className}) => {
     return (
-        <div className='w-screen h-screen flex'>
+        <div className='max-w-screen h-screen flex'>
             <Navbar />
-            <div className='container h-full overflow-auto mx-auto'>{children}</div>
+            <div className={`container max-h-full mx-auto ${className}`}>{children}</div>
         </div>
     );
 };

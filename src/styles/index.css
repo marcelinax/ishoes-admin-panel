@@ -3,3 +3,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-notchedOutline {
+    border-color: #e4e4e7 !important;
+    border-width: 2px !important;
+}
+
+.css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-focused, .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root {
+    color:#a1a1aa !important;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root, .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+    color:#a1a1aa !important;
+}
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 10px;
+      }
+  
+      .scrollbar::-webkit-scrollbar-track {
+        background:  #d6d3d1;
+        border-radius: 20px;
+      }
+  
+      .scrollbar::-webkit-scrollbar-thumb {
+        background:#aaaaaf;
+        border-radius: 20px;
+      }
+    
+  }
