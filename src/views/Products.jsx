@@ -6,19 +6,30 @@ import { ProductCard } from './../components/ProductCard';
 import { Search } from '../components/global/Search';
 import { SelectInput } from './../components/inputs/Select';
 import { TYPES } from './../Constants';
+import { useSelector } from 'react-redux';
 
 export const Products = () => {
 
     const [selectedType, setSelectedType] = useState('All');
+    const shoeProducts = useSelector(state => {return state.shoeProducts.shoeProducts;});
 
     const onSelectedTypeChange = (e) => {
         setSelectedType(e.target.value);
     };
 
+
     const renderSelectTypeOptions = () => {
         return TYPES.types.map(type => {return (
             <MenuItem key={type} value={type}>{type}</MenuItem>
         );});
+    };
+
+    const renderProductCards = () => {
+        if (shoeProducts) {
+            return shoeProducts.map(product => {return (
+                <ProductCard key={product.id} amount={product.amount} brand={product.brand} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
+            );});
+        }
     };
 
     return (
@@ -32,9 +43,7 @@ export const Products = () => {
                 </div>
                 <div className='w-full max-h-[80vh] flex flex-wrap overflow-auto'>
                     <ProductCard isEmpty={true}/>
-                    <ProductCard/>
-                    <ProductCard/>
-                    <ProductCard/>
+                    {renderProductCards()}
                 </div>
             </DefaultLayout>
         </>

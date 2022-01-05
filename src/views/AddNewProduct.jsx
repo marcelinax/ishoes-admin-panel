@@ -227,7 +227,7 @@ export const AddNewProduct = () => {
                         discount: 0
                     });
                     toast.success('Product has been added!');
-                    
+                    clearForm();
                 } catch (error) {
                     toast.error(error.response.data.message);
                 }
@@ -239,12 +239,12 @@ export const AddNewProduct = () => {
                         ...formData
                     });
                     toast.success('Product has been added!');
+                    clearForm();
                 } catch (error) {
                     toast.error(error.response.data.message);
                 }
             }
             
-            clearForm();
         }
             
                 
@@ -281,7 +281,7 @@ export const AddNewProduct = () => {
     return (
         <div>
             <DefaultLayout className='mt-10'>
-                <div className='w-2/3 mx-auto bg-white shadow-3xl mb-10'>
+                <div className='w-2/3 mx-auto bg-white shadow-3xl mb-10 rounded-md'>
                     <form onSubmit={onSubmit}>
                         <div className='w-full p-16'>
                             <h1 className='text-3xl font-semibold mb-12 text-blue'>Add New Product</h1>
