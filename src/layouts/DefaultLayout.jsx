@@ -3,9 +3,9 @@ import React from 'react';
 
 export const DefaultLayout = ({children, className}) => {
     return (
-        <div className='max-w-screen h-screen flex'>
+        <div className='max-w-screen max-h-screen flex pl-[8.333333%]'>
             <Navbar />
-            <div className={`container max-h-full mx-auto ${className}`}>{children}</div>
+            <div className={`container h-full mx-auto ${className}`}>{children}</div>
         </div>
     );
 };

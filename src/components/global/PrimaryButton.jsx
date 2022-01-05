@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const PrimaryButton = ({title, type, className}) => {
+export const PrimaryButton = ({title, type, className, onClick}) => {
     return (
         <button type={type} className={`py-3 shadow-md text-white px-10 rounded-md font-medium cursor-pointer hover:scale-95 transition-all ${className}`}>{title}</button>
     );

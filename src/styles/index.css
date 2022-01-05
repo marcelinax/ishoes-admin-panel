@@ -9,13 +9,14 @@
     border-width: 2px !important;
 }
 
-.css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-focused, .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root {
+.css-1kty9di-MuiFormLabel-root-MuiInputLabel-root.Mui-focused, .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root, .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
     color:#a1a1aa !important;
 }
 
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root, .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root, .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root,.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     color:#a1a1aa !important;
 }
+
 
 @layer utilities {
     .scrollbar::-webkit-scrollbar {

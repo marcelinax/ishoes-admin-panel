@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ProductCard } from './../components/ProductCard';
 import { Search } from '../components/global/Search';
 import { SelectInput } from './../components/inputs/Select';
-import { constants } from './../Constants';
+import { TYPES } from './../Constants';
 
 export const Products = () => {
 
@@ -16,7 +16,7 @@ export const Products = () => {
     };
 
     const renderSelectTypeOptions = () => {
-        return constants.types.map(type => {return (
+        return TYPES.types.map(type => {return (
             <MenuItem key={type} value={type}>{type}</MenuItem>
         );});
     };

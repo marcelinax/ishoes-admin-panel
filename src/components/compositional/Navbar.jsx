@@ -9,7 +9,7 @@ import React from 'react';
 
 export const Navbar = () => {
     return (
-        <div className='w-1/12 h-screen border-r-2 border-gray border-opacity-10 shadow-xl'>
+        <div className='w-1/12 h-screen fixed border-r-2 border-gray border-opacity-10 shadow-xl left-0 top-0'>
             <div className='w-full p-6'>
                 <Logo/>
                 <div className='w-full flex flex-col mt-20'>
