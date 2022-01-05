@@ -1,4 +1,7 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { AddNewProduct } from './views/AddNewProduct';
 import { Homepage } from './views/Homepage';
@@ -10,6 +13,7 @@ import store from './store/store';
 function App() {
     return (
         <Provider store={store}>
+            <ToastContainer />
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Homepage/>}/>

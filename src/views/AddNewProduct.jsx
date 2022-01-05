@@ -11,6 +11,7 @@ import { RadioInput } from './../components/inputs/RadioInput';
 import { SelectInput } from '../components/inputs/Select';
 import axios from 'axios';
 import { config } from './../config/Config';
+import { toast } from 'react-toastify';
 
 export const AddNewProduct = () => {
 
@@ -134,7 +135,7 @@ export const AddNewProduct = () => {
     };
 
     const onChange = (e) => {
-        const { id, value } = e.target;
+        const { id, value, type } = e.target;
         setFormData({
             ...formData,
             [id]: value
@@ -218,19 +219,53 @@ export const AddNewProduct = () => {
     };
 
     const addNewProduct = async () => {
-        if (checkIfFormInputsAreValid())
+        if (checkIfFormInputsAreValid()) {
             if (formData.isOnSale === 'no' || !formData.isOnSale) {
-                await axios.post(config.apiUrl + 'shoeProducts', {
-                    ...formData,
-                    discount: 0
-                });
-            }
-            else{
-                await axios.post(config.apiUrl + 'shoeProducts', {
-                    ...formData
-                });
-            }
+                try {
+                    await axios.post(config.apiUrl + 'shoeProducts', {
+                        ...formData,
+                        discount: 0
+                    });
+                    toast.success('Product has been added!');
+                    
+                } catch (error) {
+                    toast.error(error.response.data.message);
+                }
                 
+            }
+            else {
+                try {
+                    await axios.post(config.apiUrl + 'shoeProducts', {
+                        ...formData
+                    });
+                    toast.success('Product has been added!');
+                } catch (error) {
+                    toast.error(error.response.data.message);
+                }
+            }
+            
+            clearForm();
+        }
+            
+                
+    };
+
+    const clearForm = () => {
+        setFormData({
+            model: '',
+            brand: '',
+            material: '',
+            size: '',
+            gender: '',
+            type: '',
+            amount: 0,
+            price: 0,
+            colors: [],
+            photos: [],
+            isOnSale: false,
+            opinions: [],
+            discount: 0
+        });
     };
 
 
@@ -251,7 +286,7 @@ export const AddNewProduct = () => {
                         <div className='w-full p-16'>
                             <h1 className='text-3xl font-semibold mb-12 text-blue'>Add New Product</h1>
                             <div className='w-full flex items-end'>
-                                <Input title='Model' id='model' className='basis-1/2 mr-3' value={formData.model} onChange={onChange} error={filterFormInputsErrors(ERRORS.MODEL_IS_REQUIRED)} />
+                                <Input type='text' title='Model' id='model' className='basis-1/2 mr-3' value={formData.model} onChange={onChange} error={filterFormInputsErrors(ERRORS.MODEL_IS_REQUIRED)} />
                                 <SelectInput label='Brand' value={brand} onChange={onBrandSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>
                                     {renderBrandSelectOptions()}
                                 </SelectInput>
@@ -269,10 +304,10 @@ export const AddNewProduct = () => {
                                 <SelectInput label='Material' value={material} onChange={onMaterialSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.MATERIAL_IS_REQUIRED)}>
                                     {renderMaterialSelectOptions()}
                                 </SelectInput>
-                                <Input title='Amount' id='amount' value={formData.amount} onChange={onChange} className='basis-1/6' error={filterFormInputsErrors(ERRORS.AMOUNT_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.AMOUNT_IS_REQUIRED)}/>
+                                <Input type='number' title='Amount' id='amount' value={formData.amount} onChange={onChange} className='basis-1/6 !appearance-none' error={filterFormInputsErrors(ERRORS.AMOUNT_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.AMOUNT_IS_REQUIRED)}/>
                             </div>
                             <div className='w-full flex justify-between items-center mt-8'>
-                                <Input title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
+                                <Input type='number' title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
                                 <div className='flex items-center'>
                                     <RadioInput value={isOnSale} onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
                                     <Input disabled={isOnSale === 'no' } title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
