@@ -1,24 +1,23 @@
-import { BRANDS, COLORS, ERRORS, GENDERS, MATERIALS, SIZES, TYPES } from './../Constants';
+import { COLORS, ERRORS, GENDERS, MATERIALS, SIZES, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ColorItem } from '../components/global/ColorItem';
+import { ColorItem } from './../components/global/ColorItem';
 import { DefaultLayout } from './../layouts/DefaultLayout';
 import { Input } from './../components/inputs/Input';
 import { MenuItem } from '@mui/material';
 import { PhotoItem } from './../components/global/PhotoItem';
 import { PrimaryButton } from './../components/global/PrimaryButton';
 import { RadioInput } from './../components/inputs/RadioInput';
-import { SelectInput } from '../components/inputs/Select';
-import { addShoeProduct } from '../store/shoeProductsSlice';
+import { SelectInput } from './../components/inputs/Select';
 import axios from 'axios';
 import { config } from './../config/Config';
-import { toast } from 'react-toastify';
+import { setShoeProduct } from '../store/shoeProductsSlice';
 
-export const AddNewProduct = () => {
+export const EditShoeProduct = () => {
 
+    const [shoeProduct, setShoeProduct] = useState(null);
     const brands = useSelector(state => { return state.brands.brands; });
-    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         model: '',
         brand: '',
@@ -35,15 +34,38 @@ export const AddNewProduct = () => {
         discount: 0
     });
 
+
     const [errors, setErrors] = useState([]);
 
-    const renderColorsItems = () => {
-        return COLORS.colors.map(color => {
-            return (
-                <ColorItem key={color.title} isChosen={formData.colors.includes(color.title)} onClick={() => { return onIsColorChosenChange(color.title); }} color={color.color} title={color.title} className='w-12 h-12' />
-            );
-        });
+    useEffect(() => {
+        getShoeProductById();
+    }, []);
+
+    useEffect(() => {
+        if (shoeProduct) {
+            setFormData({
+                model: shoeProduct.model,
+                brand: shoeProduct.brand._id,
+                material: shoeProduct.material,
+                size: shoeProduct.size,
+                gender: shoeProduct.gender,
+                type: shoeProduct.type,
+                amount: shoeProduct.amount,
+                price: shoeProduct.price,
+                colors: [...shoeProduct.colors],
+                photos: [...shoeProduct.photos],
+                isOnSale: shoeProduct.isOnSale,
+                opinions: shoeProduct.opinions,
+                discount: shoeProduct.discount
+            });
+        }
+        
+    }, [shoeProduct]);
+
+    const getShoeProductById = async () => {
+        await axios.get(config.apiUrl + `shoeProducts/${location.pathname.split('/').reverse()[0]}`).then(res => {return setShoeProduct(res.data);});
     };
+
 
     const handleFileUpload = (fileUrl) => {
         setFormData({ ...formData, photos: [...formData.photos, fileUrl] });
@@ -55,7 +77,10 @@ export const AddNewProduct = () => {
 
     const renderPhotosItems = () => {
         const photosEl = [];
-        for (let i = 0; i < 6; i++) {
+        formData.photos.forEach((photo,index) => {
+            photosEl.push(<PhotoItem key={index} onFileUpload={handleFileUpload} onFileRemove={handleFileRemove} value={photo} />);
+        });
+        for (let i = photosEl.length; i < 6; i++) {
             photosEl.push(<PhotoItem key={i} onFileUpload={handleFileUpload} onFileRemove={handleFileRemove} />);
         }
         return photosEl;
@@ -94,21 +119,29 @@ export const AddNewProduct = () => {
     };
 
     const renderBrandSelectOptions = () => {
-        return brands.map(brand => {
+        if(brands)
+            return brands.map(brand => {
+                return (
+                    <MenuItem key={brand.name} value={brand._id}>{brand.name}</MenuItem>
+                );
+            });
+    };
+
+    const renderColorsItems = () => {
+        return COLORS.colors.map(color => {
             return (
-                <MenuItem key={brand.name} value={brand._id}>{brand.name}</MenuItem>
+                <ColorItem key={color.title} isChosen={formData.colors.includes(color.title)} onClick={() => { return onIsColorChosenChange(color.title); }} color={color.color} title={color.title} className='w-12 h-12' />
             );
         });
+    };
+
+    const onIsOnSaleChange = (e) => {
+        setFormData({ ...formData, isOnSale: Boolean(+e.target.value) });
     };
 
     const onSelectChange = (e) => {
         const { name, value } = e.target;
         setFormData({...formData, [name]: value});
-    };
-
-
-    const onIsOnSaleChange = (e) => {
-        setFormData({ ...formData, isOnSale: Boolean(+e.target.value) });
     };
 
     const onChange = (e) => {
@@ -128,6 +161,7 @@ export const AddNewProduct = () => {
             setFormData({ ...formData });
         }
     };
+
 
     const checkIfFormInputsAreValid = () => {
         let isValid = true;
@@ -195,60 +229,8 @@ export const AddNewProduct = () => {
         return isValid;
     };
 
-    const addNewProduct = async () => {
-        if (checkIfFormInputsAreValid()) {
-            if (!formData.isOnSale) {
-                try {
-                    await axios.post(config.apiUrl + 'shoeProducts', {
-                        ...formData,
-                        discount: 0
-                    }).then(res => {return dispatch(addShoeProduct(res.data));});
-                    toast.success('Product has been added!');
-                    clearForm();
-                } catch (error) {
-                    toast.error(error.response.data.message);
-                }
-                
-            }
-            else {
-                try {
-                    await axios.post(config.apiUrl + 'shoeProducts', {
-                        ...formData
-                    }).then(res => {return dispatch(addNewProduct(res.data));});
-                    toast.success('Product has been added!');
-                    clearForm();
-                } catch (error) {
-                    toast.error(error.response.data.message);
-                }
-            }
-            
-        }
-            
-                
-    };
-
-    const clearForm = () => {
-        setFormData({
-            model: '',
-            brand: '',
-            material: '',
-            size: '',
-            gender: '',
-            type: '',
-            amount: 0,
-            price: 0,
-            colors: [],
-            photos: [],
-            isOnSale: false,
-            opinions: [],
-            discount: 0
-        });
-    };
-
-
-    const onSubmit = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
-        await addNewProduct();
     };
 
     const filterFormInputsErrors = (error) => {
@@ -261,7 +243,7 @@ export const AddNewProduct = () => {
                 <div className='w-2/3 mx-auto bg-white shadow-3xl mb-10 rounded-md'>
                     <form onSubmit={onSubmit}>
                         <div className='w-full p-16'>
-                            <h1 className='text-3xl font-semibold mb-12 text-blue'>Add New Product</h1>
+                            <h1 className='text-3xl font-semibold mb-12 text-blue'>Edit</h1>
                             <div className='w-full flex items-end'>
                                 <Input type='text' title='Model' id='model' className='basis-1/2 mr-3' value={formData.model} onChange={onChange} error={filterFormInputsErrors(ERRORS.MODEL_IS_REQUIRED)} />
                                 <SelectInput name='brand' label='Brand' value={formData.brand} onChange={onSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>

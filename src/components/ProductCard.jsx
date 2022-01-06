@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick }) => {
+export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick, onEditClick }) => {
 
     const navigate = useNavigate();
     
@@ -32,7 +32,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
                             </div>
                         </div>
                         <div className='w-full flex items-center'>
-                            <ButtonWithIcon icon={<BiPencil size={20}/>} className='mr-3'/>
+                            <ButtonWithIcon icon={<BiPencil size={20}/>} className='mr-3' onClick={onEditClick}/>
                             <ButtonWithIcon icon={<BiTrashAlt size={20} className='fill-red-600' />} onClick={onDeleteClick}/>
                         </div>
                     </div>

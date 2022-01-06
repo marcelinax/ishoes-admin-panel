@@ -12,12 +12,12 @@ export const RadioInput = ({radioGroupClassName, formControlLabelClassName, radi
             <RadioGroup
                 aria-label="On sale"
                 name="controlled-radio-buttons-group"
-                value={value}
+                value={Number(value)}
                 onChange={onChange}
                 className={`${radioGroupClassName}`}
             >
-                <FormControlLabel value="yes" control={<Radio className={radioClassName}/>} label="Yes" className={`${formControlLabelClassName}`}/>
-                <FormControlLabel value="no" control={<Radio className={radioClassName} />} label="No" className={`${formControlLabelClassName}`}/>
+                <FormControlLabel value={1} control={<Radio className={radioClassName}/>} label="Yes" className={`${formControlLabelClassName}`}/>
+                <FormControlLabel value={0} control={<Radio className={radioClassName} />} label="No" className={`${formControlLabelClassName}`}/>
             </RadioGroup>
         </FormControl>
     );

@@ -5,6 +5,7 @@ import React, {useEffect} from 'react';
 
 import { AddNewProduct } from './views/AddNewProduct';
 import { Brands } from './views/Brands';
+import { EditShoeProduct } from './views/EditShoeProduct';
 import { Homepage } from './views/Homepage';
 import { Products } from './views/Products';
 import { ToastContainer } from 'react-toastify';
@@ -13,7 +14,6 @@ import { config } from './config/Config';
 import { setBrands } from './store/brandsSlice';
 import { setShoeProducts } from './store/shoeProductsSlice';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 
 function App() {
 
@@ -52,6 +52,7 @@ function App() {
                     <Route path='/products' element={<Products/>}/>
                     <Route path='/add-new-product' element={<AddNewProduct/>}/>
                     <Route path='/brands' element={<Brands/>}/>
+                    <Route path='/edit-product/:id' element={<EditShoeProduct/>}/>
                 </Routes>
             </BrowserRouter>
         </>

@@ -4,6 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes rotateSpinnerLoader  { 
+    0% {
+        transform: rotate(0);
+      }
+      25% {
+        transform: rotate(90deg);
+      }
+      50% {
+        transform: rotate(180deg);
+      }
+      75% {
+        transform: rotate(270deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+}
+
 .MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-notchedOutline {
     border-color: #e4e4e7 !important;
     border-width: 2px !important;
@@ -41,3 +59,7 @@
       -webkit-appearance: none;
       margin: 0;
   }
+
+.spinner{
+    animation: 2s rotateSpinnerLoader Infinite;
+}
