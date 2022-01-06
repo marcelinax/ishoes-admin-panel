@@ -18,13 +18,12 @@ import { useSelector } from 'react-redux';
 function App() {
 
     const dispatch = useDispatch();
-    const brands = useSelector(state => { return state.brands.brands; });
 
     const getShoeProducts = async () => {
         try {
             await axios.get(config.apiUrl + 'shoeProducts/').then(res => {return dispatch(setShoeProducts(res.data));});
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
         }
     };
     const getBrands = async () => {

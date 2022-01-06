@@ -25,6 +25,8 @@ export const COLORS = {
     colors: [
         { title: 'Black', color: 'bg-black' },
         {title: 'White', color: 'bg-white'},
+        {title: 'Beige', color: 'bg-orange-200'},
+        {title: 'Brown', color: 'bg-yellow-900'},
         {title: 'Red', color: 'bg-red-600'},
         {title: 'Orange', color: 'bg-orange-600'},
         {title: 'Gray', color: 'bg-zinc-500'},
@@ -54,11 +56,7 @@ export const MATERIALS = {
         'Rubber'
     ]
 };
-export const BRANDS = {
-    brands: [
-        'Nike',
-    ]
-};
+
 
 export const ERRORS = {
     MODEL_IS_REQUIRED: 'Enter a model',

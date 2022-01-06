@@ -1,13 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
-
 import { BiPencil } from 'react-icons/bi';
 import { BiPlus } from 'react-icons/bi';
 import { BiTrashAlt } from 'react-icons/bi';
 import { ButtonWithIcon } from './global/ButtonWithIcon';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const ProductCard = ({ isEmpty = false, bgImage, size, amount, price, model, brand }) => {
+export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick }) => {
 
     const navigate = useNavigate();
     
@@ -34,7 +33,7 @@ export const ProductCard = ({ isEmpty = false, bgImage, size, amount, price, mod
                         </div>
                         <div className='w-full flex items-center'>
                             <ButtonWithIcon icon={<BiPencil size={20}/>} className='mr-3'/>
-                            <ButtonWithIcon icon={<BiTrashAlt size={20} className='fill-red-600' />} />
+                            <ButtonWithIcon icon={<BiTrashAlt size={20} className='fill-red-600' />} onClick={onDeleteClick}/>
                         </div>
                     </div>
                 </div>

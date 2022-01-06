@@ -1,5 +1,6 @@
 import { BRANDS, COLORS, ERRORS, GENDERS, MATERIALS, SIZES, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ColorItem } from '../components/global/ColorItem';
 import { DefaultLayout } from './../layouts/DefaultLayout';
@@ -9,13 +10,15 @@ import { PhotoItem } from './../components/global/PhotoItem';
 import { PrimaryButton } from './../components/global/PrimaryButton';
 import { RadioInput } from './../components/inputs/RadioInput';
 import { SelectInput } from '../components/inputs/Select';
+import { addShoeProduct } from '../store/shoeProductsSlice';
 import axios from 'axios';
 import { config } from './../config/Config';
 import { toast } from 'react-toastify';
 
 export const AddNewProduct = () => {
 
-    
+    const brands = useSelector(state => { return state.brands.brands; });
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         model: '',
         brand: '',
@@ -97,9 +100,9 @@ export const AddNewProduct = () => {
     };
 
     const renderBrandSelectOptions = () => {
-        return BRANDS.brands.map(material => {
+        return brands.map(brand => {
             return (
-                <MenuItem key={material} value={material}>{material}</MenuItem>
+                <MenuItem key={brand.name} value={brand._id}>{brand.name}</MenuItem>
             );
         });
     };
@@ -135,7 +138,7 @@ export const AddNewProduct = () => {
     };
 
     const onChange = (e) => {
-        const { id, value, type } = e.target;
+        const { id, value } = e.target;
         setFormData({
             ...formData,
             [id]: value
@@ -219,13 +222,14 @@ export const AddNewProduct = () => {
     };
 
     const addNewProduct = async () => {
+        console.log(1);
         if (checkIfFormInputsAreValid()) {
             if (formData.isOnSale === 'no' || !formData.isOnSale) {
                 try {
                     await axios.post(config.apiUrl + 'shoeProducts', {
                         ...formData,
                         discount: 0
-                    });
+                    }).then(res => {return dispatch(addShoeProduct(res.data));});
                     toast.success('Product has been added!');
                     clearForm();
                 } catch (error) {
@@ -237,7 +241,7 @@ export const AddNewProduct = () => {
                 try {
                     await axios.post(config.apiUrl + 'shoeProducts', {
                         ...formData
-                    });
+                    }).then(res => {return dispatch(addNewProduct(res.data));});
                     toast.success('Product has been added!');
                     clearForm();
                 } catch (error) {
@@ -310,7 +314,7 @@ export const AddNewProduct = () => {
                                 <Input type='number' title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
                                 <div className='flex items-center'>
                                     <RadioInput value={isOnSale} onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
-                                    <Input disabled={isOnSale === 'no' } title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
+                                    <Input disabled={isOnSale === 'no' } type='number' title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
                                 </div>
                             </div>
                             <div className='w-full flex flex-col mt-8 '>
