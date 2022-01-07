@@ -30,7 +30,7 @@ export const SelectInput = ({ value, onChange, name,label, children, className,e
 };
 
 SelectInput.propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
 };

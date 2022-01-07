@@ -306,7 +306,7 @@ export const EditShoeProduct = () => {
                             <div className='w-full flex justify-between items-center mt-8'>
                                 <Input type='number' title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
                                 <div className='flex items-center'>
-                                    <RadioInput value={formData.isOnSale} onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
+                                    <RadioInput value={formData.isOnSale} label='On sale' onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
                                     <Input disabled={!formData.isOnSale } type='number' title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
                                 </div>
                             </div>

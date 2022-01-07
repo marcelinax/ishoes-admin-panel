@@ -57,6 +57,25 @@ export const MATERIALS = {
     ]
 };
 
+export const LEGENDS = {
+    legends: [
+        {title: 'Out of stock', color: 'bg-gray'},
+        {title: 'In stock', color: 'bg-blue'},
+        {title: 'On sale', color: 'bg-red-600'},
+        {title: 'New', color: 'bg-neutral-green'},
+        {title: 'Last pairs', color: 'bg-yellow-400'},
+    ],
+    legendsTitles: {
+        OUT_OF_STOCK: 'Out of stock',
+        IN_STOCK: 'In stock',
+        ON_SALE: 'On sale',
+        NEW: 'New',
+        LAST_PAIRS: 'Last pairs',
+    }
+};
+
+
+
 
 export const ERRORS = {
     MODEL_IS_REQUIRED: 'Enter a model',

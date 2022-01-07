@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick, onEditClick }) => {
+export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick, onEditClick, legend }) => {
 
     const navigate = useNavigate();
     
@@ -15,7 +15,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
         if (!isEmpty) {
             return <div className='p-4 basis-1/3 h-80'>
                 <div className='w-full h-full p-10 flex shadow-3xl rounded-lg relative'>
-                    <div className='w-1 h-full absolute top-0 right-0 bg-blue rounded-lg' />
+                    <div className={`w-1 h-full absolute top-0 right-0 ${legend} rounded-lg`} />
                     <div className='min-w-[50%] h-full'>
                         <div className='w-full h-full bg-center bg-no-repeat bg-contain rounded-lg' style={{backgroundImage: `url(${bgImage})`}} />
                     </div>
