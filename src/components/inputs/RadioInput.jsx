@@ -5,7 +5,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 
-export const RadioInput = ({radioGroupClassName, formControlLabelClassName, radioClassName, onChange, value, label}) => {
+export const RadioInput = ({radioGroupClassName, formControlLabelClassName, radioClassName, onChange, value, label, showAllOptions = false}) => {
     return (
         <FormControl component="fieldset">
             <FormLabel component="legend" className='text-gray text-xs font-semibold'>{label && label.toUpperCase()}</FormLabel>

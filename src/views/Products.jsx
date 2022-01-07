@@ -1,6 +1,5 @@
-import { LEGENDS, TYPES } from './../Constants';
+import { GENDERS, LEGENDS, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
-import { deleteShoeProduct, getShoeProductById, setShoeProduct } from '../store/shoeProductsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BiInfoCircle } from 'react-icons/bi';
@@ -11,35 +10,60 @@ import { FilterItem } from '../components/filter/FilterItem';
 import { Legend } from './../components/global/Legend';
 import MenuItem from '@mui/material/MenuItem';
 import { ProductCard } from './../components/ProductCard';
-import { RadioInput } from './../components/inputs/RadioInput';
 import { Search } from '../components/global/Search';
-import { SelectInput } from './../components/inputs/Select';
+import { SelectInput } from '../components/inputs/SelectInput';
 import axios from 'axios';
 import { config } from './../config/Config';
+import { deleteShoeProduct } from '../store/shoeProductsSlice';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useRefreshShoeProducts } from '../hooks/useRefreshShoeProducts';
 
 export const Products = () => {
 
     const [selectedType, setSelectedType] = useState('All');
     const [selectedBrand, setSelectedBrand] = useState('');
+    const [sortHow, setSortHow] = useState('');
+    const [search, setSearch] = useState('');
+    const [genders, setGenders] = useState([]);
     const [isLegendShown, setIsLegendShown] = useState(false);
+    const [isOnSale, setIsOnSale] = useState(null);
+    const [isOutOfStock, setIsOutOfStock] = useState(null);
     const shoeProducts = useSelector(state => { return state.shoeProducts.shoeProducts; });
     const brands = useSelector(state => {return state.brands.brands;});
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {refresh: refreshShoes} = useRefreshShoeProducts();
 
 
     useEffect(() => {
         renderProductCards();
-    },[shoeProducts]);
+    }, [shoeProducts]);
+    
+    useEffect(() => {
+        refreshShoes({
+            query: search,
+            type: selectedType,
+            brand: selectedBrand,
+            gender: [...genders],
+            isOnSale
+        });
+    },[selectedType, selectedBrand,search,genders,isOnSale]);
+   
 
     const onSelectedTypeChange = (e) => {
         setSelectedType(e.target.value);
     };
     const onSelectedBrandChange = (e) => {
         setSelectedBrand(e.target.value);
+    };
+    const onSortHowChange = (e) => {
+        setSortHow(e.target.value);
+    };
+
+    const handleSearchInput = (e) => {
+        setSearch(e.target.value);
     };
 
     const renderSelectTypeOptions = () => {
@@ -72,6 +96,16 @@ export const Products = () => {
         navigate(`/edit-product/${shoeProduct._id}`);
     };
 
+    const onGenderChange = (gender) => {
+        if (!genders.includes(gender)) {
+            setGenders([...genders,gender]);
+        }
+        else {
+            genders.splice(genders.indexOf(gender), 1);
+            setGenders([...genders]);
+        }
+    };
+
     const getLegendsByParam = (param) => {
         return LEGENDS.legends.filter(legend => {return legend.title === param;})[0].color;
     };
@@ -86,10 +120,8 @@ export const Products = () => {
             return getLegendsByParam(LEGENDS.legendsTitles.ON_SALE);
         }
         if (moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7,'days').format('DD:MM:YYYY')) {
-        
             return getLegendsByParam(LEGENDS.legendsTitles.NEW);
         }
-        
         else return getLegendsByParam(LEGENDS.legendsTitles.IN_STOCK);
     };
 
@@ -99,6 +131,13 @@ export const Products = () => {
         );});
     };
 
+    const renderGendersCheckboxes = () => {
+        return GENDERS.genders.map(gender => {return (
+            <Checkbox key={gender} title={gender} onChange={()=>{return onGenderChange(gender);}} value={genders.includes(gender)} className='mr-3'/>
+        );});
+    };
+    
+
     return (
         <>
             <DefaultLayout className='mt-20 flex flex-col'>
@@ -107,7 +146,7 @@ export const Products = () => {
                         <div className='basis-5/6'>
                             <div className='w-full flex'>
                                 <div className='basis-4/5 mb-10 justify-between flex '>
-                                    <Search className='basis-1/2 mr-12' />
+                                    <Search value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
                                     <div className='basis-1/2'>
                                         <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 mr-5'>
                                             {renderSelectTypeOptions()}
@@ -121,15 +160,17 @@ export const Products = () => {
                             </div>
                             <div className='w-full flex' >
                                 <FilterItem title='Gender' className='mr-10'>
-                                    <Checkbox title='Men' className='mr-5'/>
-                                    <Checkbox title='Woman' className='mr-5'/>
-                                    <Checkbox title='Kids'/>
+                                    {renderGendersCheckboxes()}
                                 </FilterItem>
                                 <FilterItem title='On sale' className='mr-10'>
-                                    <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray' />
+                                    <Checkbox title='Yes' value={isOnSale} onChange={()=> {return setIsOnSale(true);}} className='mr-3'/>
+                                    <Checkbox title='No' value={isOnSale === false} onChange={()=> {return setIsOnSale(false);}} className='mr-3'/>
+                                    <Checkbox title='All' value={isOnSale === null} onChange={()=> {return setIsOnSale(null);}}/>
                                 </FilterItem>
-                                <FilterItem title='Out of stock'>
-                                    <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray'/>
+                                <FilterItem title='Out of stock' >
+                                    <Checkbox title='Yes' value={isOutOfStock} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
+                                    <Checkbox title='No' value={isOutOfStock === false} onChange={()=> {return setIsOutOfStock(false);}} className='mr-3'/>
+                                    <Checkbox title='All' value={isOutOfStock === null} onChange={() => { return setIsOutOfStock(null); }} />
                                 </FilterItem>
                                 <div />
                             </div>
@@ -142,7 +183,13 @@ export const Products = () => {
                         </div>
                     </Filter>
                 </div>
-                <div className='w-full mt-10'>
+                <div className='w-full px-4 flex mt-16 justify-end'>
+                    <SelectInput name='sortBy' label='Sort by' value={sortHow} onChange={onSortHowChange} className='w-1/12'>
+                        <MenuItem value='newest'>Newest</MenuItem>
+                        <MenuItem value='oldest'>Oldest</MenuItem>
+                    </SelectInput>
+                </div>
+                <div className='w-full mt-4'>
                     <div className='w-full max-h-[80vh] flex flex-wrap overflow-auto'>
                         <ProductCard isEmpty={true}/>
                         {renderProductCards()}

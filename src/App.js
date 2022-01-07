@@ -12,20 +12,13 @@ import { ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { config } from './config/Config';
 import { setBrands } from './store/brandsSlice';
-import { setShoeProducts } from './store/shoeProductsSlice';
 import { useDispatch } from 'react-redux';
+import { useRefreshShoeProducts } from './hooks/useRefreshShoeProducts';
 
 function App() {
 
     const dispatch = useDispatch();
-
-    const getShoeProducts = async () => {
-        try {
-            await axios.get(config.apiUrl + 'shoeProducts/').then(res => {return dispatch(setShoeProducts(res.data));});
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
+    const {refresh: refreshShoes} = useRefreshShoeProducts();
     const getBrands = async () => {
         try {
             await axios.get(config.apiUrl + 'brands/').then(res => {return dispatch(setBrands(res.data));});
@@ -33,14 +26,13 @@ function App() {
             console.log(error);
         }
     };
+    useEffect(() => {
+        refreshShoes();
+    },[]);
 
     useEffect(() => {
         getBrands();
-    }, []);
-
-    
-    useEffect(() => {
-        getShoeProducts();
+       
     }, []);
     
     return (

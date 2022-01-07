@@ -9,7 +9,7 @@ import { MenuItem } from '@mui/material';
 import { PhotoItem } from './../components/global/PhotoItem';
 import { PrimaryButton } from './../components/global/PrimaryButton';
 import { RadioInput } from './../components/inputs/RadioInput';
-import { SelectInput } from '../components/inputs/Select';
+import { SelectInput } from '../components/inputs/SelectInput';
 import { addShoeProduct } from '../store/shoeProductsSlice';
 import axios from 'axios';
 import { config } from './../config/Config';

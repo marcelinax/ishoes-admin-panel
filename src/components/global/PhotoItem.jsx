@@ -1,6 +1,6 @@
 import * as tus from 'tus-js-client';
 
-import { BiLoader, BiPlus, BiX } from 'react-icons/bi';
+import { BiPlus, BiX } from 'react-icons/bi';
 import React, { useEffect, useState } from 'react';
 
 import { Spinner } from './Spinner';
