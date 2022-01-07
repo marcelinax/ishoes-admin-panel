@@ -49,7 +49,11 @@ export const Products = () => {
             gender: [...genders],
             isOnSale
         });
-    },[selectedType, selectedBrand,search,genders,isOnSale]);
+    }, [selectedType, selectedBrand, search, genders, isOnSale]);
+    
+    useEffect(() => {
+        refreshShoes();
+    },[]);
    
 
     const onSelectedTypeChange = (e) => {

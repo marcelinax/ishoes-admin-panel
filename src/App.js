@@ -7,18 +7,17 @@ import { AddNewProduct } from './views/AddNewProduct';
 import { Brands } from './views/Brands';
 import { EditShoeProduct } from './views/EditShoeProduct';
 import { Homepage } from './views/Homepage';
+import { Orders } from './views/Orders';
 import { Products } from './views/Products';
 import { ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { config } from './config/Config';
 import { setBrands } from './store/brandsSlice';
 import { useDispatch } from 'react-redux';
-import { useRefreshShoeProducts } from './hooks/useRefreshShoeProducts';
 
 function App() {
 
     const dispatch = useDispatch();
-    const {refresh: refreshShoes} = useRefreshShoeProducts();
     const getBrands = async () => {
         try {
             await axios.get(config.apiUrl + 'brands/').then(res => {return dispatch(setBrands(res.data));});
@@ -26,10 +25,7 @@ function App() {
             console.log(error);
         }
     };
-    useEffect(() => {
-        refreshShoes();
-    },[]);
-
+  
     useEffect(() => {
         getBrands();
        
@@ -45,6 +41,7 @@ function App() {
                     <Route path='/add-new-product' element={<AddNewProduct/>}/>
                     <Route path='/brands' element={<Brands/>}/>
                     <Route path='/edit-product/:id' element={<EditShoeProduct/>}/>
+                    <Route path='/orders' element={<Orders/>}/>
                 </Routes>
             </BrowserRouter>
         </>

@@ -20,6 +20,9 @@ module.exports = {
                 half: '50%'
             }
         },
+        fontFamily: {
+            'sans': ['Poppins']
+        }
         
     },
     plugins: [],
