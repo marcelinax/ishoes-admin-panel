@@ -1,6 +1,5 @@
 import { COLORS, ERRORS, GENDERS, MATERIALS, SIZES, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { ColorItem } from './../components/global/ColorItem';
 import { DefaultLayout } from './../layouts/DefaultLayout';
@@ -12,7 +11,9 @@ import { RadioInput } from './../components/inputs/RadioInput';
 import { SelectInput } from './../components/inputs/Select';
 import axios from 'axios';
 import { config } from './../config/Config';
-import { setShoeProduct } from '../store/shoeProductsSlice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 export const EditShoeProduct = () => {
 
@@ -36,10 +37,12 @@ export const EditShoeProduct = () => {
 
 
     const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getShoeProductById();
     }, []);
+
 
     useEffect(() => {
         if (shoeProduct) {
@@ -81,7 +84,7 @@ export const EditShoeProduct = () => {
             photosEl.push(<PhotoItem key={index} onFileUpload={handleFileUpload} onFileRemove={handleFileRemove} value={photo} />);
         });
         for (let i = photosEl.length; i < 6; i++) {
-            photosEl.push(<PhotoItem key={i} onFileUpload={handleFileUpload} onFileRemove={handleFileRemove} />);
+            photosEl.push(<PhotoItem key={i} onFileUpload={handleFileUpload} onFileRemove={handleFileRemove} value='' />);
         }
         return photosEl;
     };
@@ -229,8 +232,42 @@ export const EditShoeProduct = () => {
         return isValid;
     };
 
-    const onSubmit = (e) => {
+
+    const onEditShoeProduct = async () => {
+        if (checkIfFormInputsAreValid()) {
+            if (!formData.isOnSale) {
+                try {
+                    await axios.put(config.apiUrl + `shoeProducts/${shoeProduct._id}`, {
+                        ...formData,
+                        discount: 0
+                    });
+                    toast.success('Product has been edited');
+                    navigate('/products');
+                }
+                catch (error) {
+                    toast.error(error.response.data.message);
+                }
+            }
+            else {
+                try {
+                    await axios.put(config.apiUrl + `shoeProducts/${shoeProduct._id}`, {
+                        ...formData
+                    });
+                    toast.success('Product has been edited');
+                    navigate('/products');
+                }
+                catch (error) {
+                    toast.error(error.response.data.message);
+                }
+            }
+            
+        }
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
+        await onEditShoeProduct();
+        
     };
 
     const filterFormInputsErrors = (error) => {
@@ -249,6 +286,7 @@ export const EditShoeProduct = () => {
                                 <SelectInput name='brand' label='Brand' value={formData.brand} onChange={onSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>
                                     {renderBrandSelectOptions()}
                                 </SelectInput>
+                                {console.log(formData.photos)}
                             </div>
                             <div className='w-full flex items-end mt-8'>
                                 <SelectInput name='size' label='Size' value={formData.size} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.SIZE_IS_REQUIRED)}>

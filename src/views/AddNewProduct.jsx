@@ -221,10 +221,7 @@ export const AddNewProduct = () => {
                     toast.error(error.response.data.message);
                 }
             }
-            
         }
-            
-                
     };
 
     const clearForm = () => {

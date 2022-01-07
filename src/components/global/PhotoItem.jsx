@@ -42,7 +42,7 @@ export const PhotoItem = ({ onFileUpload, onFileRemove, value}) => {
             },
             onSuccess: function() {
                 setUploadUrl(upload.url);
-                onFileUpload(uploadUrl);
+                onFileUpload(upload.url);
                 setLoading(false);
             }
         });
