@@ -104,37 +104,41 @@ export const Products = () => {
             <DefaultLayout className='mt-20 flex flex-col'>
                 <div className='w-full px-4'>
                     <Filter>
-                        <BiInfoCircle className='absolute cursor-pointer top-4 right-4 fill-gray' size={20} onMouseOver={()=>{return setIsLegendShown(true);}} onMouseLeave={()=>{return setIsLegendShown(false);}}/>
-                        <div className='w-full flex'>
-                            <div className='basis-4/5 mb-10 justify-between flex '>
-                                <Search className='w-6/12 mr-12' />
-                                <div className='w-6/12'>
-                                    <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 mr-5'>
-                                        {renderSelectTypeOptions()}
-                                    </SelectInput>
-                                    <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
-                                        {renderSelectBrandOptions()}
-                                    </SelectInput>
+                        <div className='basis-5/6'>
+                            <div className='w-full flex'>
+                                <div className='basis-4/5 mb-10 justify-between flex '>
+                                    <Search className='basis-1/2 mr-12' />
+                                    <div className='basis-1/2'>
+                                        <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 mr-5'>
+                                            {renderSelectTypeOptions()}
+                                        </SelectInput>
+                                        <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
+                                            {renderSelectBrandOptions()}
+                                        </SelectInput>
+                                    </div>
                                 </div>
+                            
                             </div>
+                            <div className='w-full flex' >
+                                <FilterItem title='Gender' className='mr-10'>
+                                    <Checkbox title='Men' className='mr-5'/>
+                                    <Checkbox title='Woman' className='mr-5'/>
+                                    <Checkbox title='Kids'/>
+                                </FilterItem>
+                                <FilterItem title='On sale' className='mr-10'>
+                                    <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray' />
+                                </FilterItem>
+                                <FilterItem title='Out of stock'>
+                                    <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray'/>
+                                </FilterItem>
+                                <div />
+                            </div>
+                        </div>
+                        <div className='basis-1/6 relative'>
+                            <BiInfoCircle className='absolute z-10 cursor-pointer top-0 right-0 fill-gray' size={20} onMouseOver={()=>{return setIsLegendShown(true);}} onMouseLeave={()=>{return setIsLegendShown(false);}}/>
                             <div className={`basis-1/5 transition-all flex flex-col ${isLegendShown ? 'opacity-100' : 'opacity-0'}`}>
                                 {renderLegendsItems()}
                             </div>
-                        </div>
-                        
-                        <div className='w-full flex' >
-                            <FilterItem title='Gender' className='mr-10'>
-                                <Checkbox title='Men' className='mr-5'/>
-                                <Checkbox title='Woman' className='mr-5'/>
-                                <Checkbox title='Kids'/>
-                            </FilterItem>
-                            <FilterItem title='On sale' className='mr-10'>
-                                <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray' />
-                            </FilterItem>
-                            <FilterItem title='Out of stock'>
-                                <RadioInput radioGroupClassName='!flex-row -mt-2' radioClassName='text-blue' formControlLabelClassName='text-gray'/>
-                            </FilterItem>
-                            <div />
                         </div>
                     </Filter>
                 </div>

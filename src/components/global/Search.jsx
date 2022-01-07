@@ -6,7 +6,7 @@ export const Search = ({className}) => {
     return (
         <div className={`border-2 border-zinc-200 rounded-lg flex justify-between items-center overflow-hidden pr-4 ${className}`}>
             <input placeholder='Search...' className='w-full py-2 px-4 outline-none text-zinc-400'/>
-            <BiSearch fill='#a1a1aa' size={20}/>
+            <BiSearch className='fill-gray' size={20}/>
         </div>
     );
 };
