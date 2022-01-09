@@ -7,6 +7,7 @@ import { AddNewProduct } from './views/AddNewProduct';
 import { Brands } from './views/Brands';
 import { EditShoeProduct } from './views/EditShoeProduct';
 import { Homepage } from './views/Homepage';
+import { OrderDetails } from './views/OrderDetails';
 import { Orders } from './views/Orders';
 import { Products } from './views/Products';
 import { ToastContainer } from 'react-toastify';
@@ -42,6 +43,7 @@ function App() {
                     <Route path='/brands' element={<Brands/>}/>
                     <Route path='/edit-product/:id' element={<EditShoeProduct/>}/>
                     <Route path='/orders' element={<Orders/>}/>
+                    <Route path='/order-details/:id' element={<OrderDetails/>}/>
                 </Routes>
             </BrowserRouter>
         </>

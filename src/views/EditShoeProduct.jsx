@@ -286,7 +286,6 @@ export const EditShoeProduct = () => {
                                 <SelectInput name='brand' label='Brand' value={formData.brand} onChange={onSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>
                                     {renderBrandSelectOptions()}
                                 </SelectInput>
-                                {console.log(formData.photos)}
                             </div>
                             <div className='w-full flex items-end mt-8'>
                                 <SelectInput name='size' label='Size' value={formData.size} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.SIZE_IS_REQUIRED)}>

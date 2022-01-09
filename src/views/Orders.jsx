@@ -7,13 +7,15 @@ import { TableHeading } from '../components/global/table/TableHeading';
 import { TableRow } from '../components/global/table/TableRow';
 import { TableRowItem } from '../components/global/table/TableRowItem';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import { useRefreshOrders } from './../hooks/useRefreshOrders';
 import { useSelector } from 'react-redux';
 
 export const Orders = () => {
 
     const { refresh: refreshOrders } = useRefreshOrders();
-    const orders = useSelector(state => {return state.orders.orders;});
+    const orders = useSelector(state => { return state.orders.orders; });
+    const navigate = useNavigate();
 
     useEffect(() => {
         refreshOrders();
@@ -25,21 +27,21 @@ export const Orders = () => {
 
     const renderOrders = () => {
         if (orders) {
-            return orders.map(order => {
-                const { _id, products, createdAt, status, email } = order;
-                const rowElements = [
-                    <TableRow key={`row${_id.substring(3, 6)}`}>
-                        <TableRowItem key={`id${_id}`}>{_id}</TableRowItem>
-                        <TableRowItem className='text-red-600' key={`income${_id}`}>${products.map(product => {return product.price;}).reduce((acc, cur)=> {return acc + cur;})}</TableRowItem>
-                        <TableRowItem key={`createdAt${_id}`}>{moment(createdAt).format('DD-MM-YYYY HH:MM:SS')}</TableRowItem>
-                        <TableRowItem key={`status${_id}`}>{status}</TableRowItem>
-                        <TableRowItem key={`email${_id}`}>{email}</TableRowItem>
-                        <TableRowItem key={`details${_id}`} className='w-1/12'>
-                            <PrimaryButton title='Details' className='bg-blue px-5 text-xs' type='button'/>
+            return orders.map((order,index) => {
+                const { _id, products, createdAt, status, email, phone } = order;
+                return (
+                    <TableRow key={index}>
+                        <TableRowItem >{_id}</TableRowItem>
+                        <TableRowItem className='text-red-600'>${products.map(product => {return product.price;}).reduce((acc, cur)=> {return acc + cur;})}</TableRowItem>
+                        <TableRowItem >{moment(createdAt).format('DD-MM-YYYY HH:MM:SS')}</TableRowItem>
+                        <TableRowItem >{status}</TableRowItem>
+                        <TableRowItem >{phone}</TableRowItem>
+                        <TableRowItem >{email}</TableRowItem>
+                        <TableRowItem className='w-1/12'>
+                            <PrimaryButton onClick={()=> {return navigate(`/order-details/${_id}`);}} title='Details' className='bg-blue px-5 text-xs' type='button'/>
                         </TableRowItem>
                     </TableRow>
-                ];
-                return rowElements;
+                );
             });
         }
     };
@@ -54,6 +56,7 @@ export const Orders = () => {
                             <TableHeading title='income'/>
                             <TableHeading title='date'/>
                             <TableHeading title='status'/>
+                            <TableHeading title='phone'/>
                             <TableHeading title='email'/>
                             <TableHeading title=''/>
                         </TableRow>
