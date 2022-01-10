@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand, onDeleteClick, onEditClick, legend }) => {
+export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand,isOnSale, onDeleteClick, onEditClick, legend, calcProductPrice }) => {
 
     const navigate = useNavigate();
     
@@ -20,6 +20,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
                         <div className='w-full h-full bg-center bg-no-repeat bg-contain rounded-lg' style={{backgroundImage: `url(${bgImage})`}} />
                     </div>
                     <div className='w-1/2 ml-6 py-5 flex flex-col justify-between'>
+                        {console.log(isOnSale)}
                         <div>
                             <div className='w-full flex flex-col'>
                                 <p className='text-gray font-semibold'>{brand}</p>
@@ -28,7 +29,11 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
                             <div className='w-full flex flex-col justify-between'>
                                 <p className='font-semibold'>Size: {size}</p>
                                 <p className='font-semibold text-blue'>Amount: {amount}</p>
-                                <p className='text-red-600 font-semibold'>${price}</p>
+                                <div className='w-full flex items-center'>
+                                    {isOnSale && <p className={` font-semibold ${isOnSale? 'text-sm line-through text-gray mr-2' : 'text-red-600'}`}>${price.toFixed(2)}</p>}
+                                    <p className={'text-red-600 font-semibold '}>${calcProductPrice}</p>
+                                </div>
+                                
                             </div>
                         </div>
                         <div className='w-full flex items-center'>
@@ -53,5 +58,6 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
 
 ProductCard.propTypes = {
     isEmpty: PropTypes.bool.isRequired,
-    bgImage:  PropTypes.string
+    bgImage: PropTypes.string.isRequired,
+    isOnSale: PropTypes.bool.isRequired
 };

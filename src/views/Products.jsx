@@ -13,6 +13,7 @@ import { ProductCard } from './../components/ProductCard';
 import { Search } from '../components/global/Search';
 import { SelectInput } from '../components/inputs/SelectInput';
 import axios from 'axios';
+import { calcProductPrice } from './../utils/calcProductPrice';
 import { config } from './../config/Config';
 import { deleteShoeProduct } from '../store/shoeProductsSlice';
 import moment from 'moment';
@@ -47,9 +48,10 @@ export const Products = () => {
             type: selectedType,
             brand: selectedBrand,
             gender: [...genders],
-            isOnSale
+            isOnSale,
+            isOutOfStock
         });
-    }, [selectedType, selectedBrand, search, genders, isOnSale]);
+    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock]);
     
     useEffect(() => {
         refreshShoes();
@@ -85,7 +87,7 @@ export const Products = () => {
     const renderProductCards = () => {
         if (shoeProducts) {
             return shoeProducts.map(product => {return (
-                <ProductCard key={product._id} legend={setLegendsForShoeProducts(product)} onEditClick={()=>{return onEditClick(product);}} isEmpty={false} onDeleteClick={()=>{onDeleteProductShoeClick(product._id);}} amount={product.amount} brand={product.brand.name} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
+                <ProductCard key={product._id} calcProductPrice={calcProductPrice(product)} isOnSale={product.isOnSale} legend={setLegendsForShoeProducts(product)} onEditClick={()=>{return onEditClick(product);}} isEmpty={false} onDeleteClick={()=>{onDeleteProductShoeClick(product._id);}} amount={product.amount} brand={product.brand.name} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
             );});
         }
     };
@@ -172,7 +174,7 @@ export const Products = () => {
                                     <Checkbox title='All' value={isOnSale === null} onChange={()=> {return setIsOnSale(null);}}/>
                                 </FilterItem>
                                 <FilterItem title='Out of stock' >
-                                    <Checkbox title='Yes' value={isOutOfStock} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
+                                    <Checkbox title='Yes' value={isOutOfStock === true} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
                                     <Checkbox title='No' value={isOutOfStock === false} onChange={()=> {return setIsOutOfStock(false);}} className='mr-3'/>
                                     <Checkbox title='All' value={isOutOfStock === null} onChange={() => { return setIsOutOfStock(null); }} />
                                 </FilterItem>

@@ -4,7 +4,7 @@ export const ordersSlice = createSlice({
     name: 'orders',
     initialState: {
         orders: [],
-        order: {}
+        order: null
     },
     reducers: {
         setOrders: (state, action) => {
@@ -15,9 +15,13 @@ export const ordersSlice = createSlice({
         },
         setOrder: (state, action) => {
             state.order = action.payload;
+        },
+        changeOrderStatus: (state, action) => {
+            const {status} = action.payload;
+            state.order.status = status;
         }
     }
 });
 
-export const {setOrders,addOrder,setOrder } = ordersSlice.actions;
+export const {setOrders,addOrder,setOrder,changeOrderStatus } = ordersSlice.actions;
 export default ordersSlice.reducer;

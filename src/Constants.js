@@ -93,3 +93,9 @@ export const ERRORS = {
     DISCOUNT_IS_REQUIRED: 'Enter discount',
     DISCOUNT_IS_NOT_A_NUMBER: 'Invalid discount form',
 };
+
+export const ORDER_STATUSES = {
+    IN_PROGRESS: 'in progress',
+    CANCELED: 'canceled',
+    SHIPPED: 'shipped'
+};

@@ -1,5 +1,6 @@
 import { COLORS, ERRORS, GENDERS, MATERIALS, SIZES, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ColorItem } from './../components/global/ColorItem';
 import { DefaultLayout } from './../layouts/DefaultLayout';
@@ -12,7 +13,6 @@ import { SelectInput } from '../components/inputs/SelectInput';
 import axios from 'axios';
 import { config } from './../config/Config';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 export const EditShoeProduct = () => {
@@ -38,6 +38,7 @@ export const EditShoeProduct = () => {
 
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
+    const params = useParams();
 
     useEffect(() => {
         getShoeProductById();
@@ -66,7 +67,7 @@ export const EditShoeProduct = () => {
     }, [shoeProduct]);
 
     const getShoeProductById = async () => {
-        await axios.get(config.apiUrl + `shoeProducts/${location.pathname.split('/').reverse()[0]}`).then(res => {return setShoeProduct(res.data);});
+        await axios.get(config.apiUrl + `shoeProducts/${params.id}`).then(res => {return setShoeProduct(res.data);});
     };
 
 
@@ -273,6 +274,7 @@ export const EditShoeProduct = () => {
     const filterFormInputsErrors = (error) => {
         return errors.filter(err => {return err === error;})[0];
     };
+
 
     return (
         <div>
