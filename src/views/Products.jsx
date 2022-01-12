@@ -1,4 +1,4 @@
-import { GENDERS, LEGENDS, TYPES } from './../Constants';
+import { GENDERS, LEGENDS, SORT_BY, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,7 +25,7 @@ export const Products = () => {
 
     const [selectedType, setSelectedType] = useState('All');
     const [selectedBrand, setSelectedBrand] = useState('');
-    const [sortHow, setSortHow] = useState('');
+    const [sortBy, setSortBy] = useState('all');
     const [search, setSearch] = useState('');
     const [genders, setGenders] = useState([]);
     const [isLegendShown, setIsLegendShown] = useState(false);
@@ -49,9 +49,10 @@ export const Products = () => {
             brand: selectedBrand,
             gender: [...genders],
             isOnSale,
-            isOutOfStock
+            isOutOfStock,
+            sortBy
         });
-    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock]);
+    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock,sortBy]);
     
     useEffect(() => {
         refreshShoes();
@@ -64,8 +65,8 @@ export const Products = () => {
     const onSelectedBrandChange = (e) => {
         setSelectedBrand(e.target.value);
     };
-    const onSortHowChange = (e) => {
-        setSortHow(e.target.value);
+    const onSortByChange = (e) => {
+        setSortBy(e.target.value);
     };
 
     const handleSearchInput = (e) => {
@@ -142,6 +143,12 @@ export const Products = () => {
             <Checkbox key={gender} title={gender} onChange={()=>{return onGenderChange(gender);}} value={genders.includes(gender)} className='mr-3'/>
         );});
     };
+
+    const renderSortByItems = () => {
+        return Object.values(SORT_BY).map(item => {return (
+            <MenuItem key={item} value={item}>{item}</MenuItem>
+        );});
+    };
     
 
     return (
@@ -190,12 +197,11 @@ export const Products = () => {
                     </Filter>
                 </div>
                 <div className='w-full px-4 flex mt-16 justify-end'>
-                    <SelectInput name='sortBy' label='Sort by' value={sortHow} onChange={onSortHowChange} className='w-1/12'>
-                        <MenuItem value='newest'>Newest</MenuItem>
-                        <MenuItem value='oldest'>Oldest</MenuItem>
+                    <SelectInput name='sortBy' label='Sort by' value={sortBy} onChange={onSortByChange} className='w-1/12' >
+                        {renderSortByItems()}
                     </SelectInput>
                 </div>
-                <div className='w-full mt-4'>
+                <div className='w-full mt-4 mb-10'>
                     <div className='w-full max-h-[80vh] flex flex-wrap overflow-auto'>
                         <ProductCard isEmpty={true}/>
                         {renderProductCards()}

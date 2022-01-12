@@ -94,6 +94,15 @@ export const ERRORS = {
     DISCOUNT_IS_NOT_A_NUMBER: 'Invalid discount form',
 };
 
+export const SORT_BY = {
+    ALL: 'all',
+    NEWEST: 'newest',
+    OLDEST: 'oldest',
+    LOW_PRICE: 'low-price',
+    HIGH_PRICE: 'high-price',
+    POPULAR: 'popular'
+};
+
 export const ORDER_STATUSES = {
     IN_PROGRESS: 'in progress',
     CANCELED: 'canceled',

@@ -13,7 +13,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
 
     const renderProductCard = () => {
         if (!isEmpty) {
-            return <div className='p-4 basis-1/3 h-80'>
+            return <div className='p-4 basis-1/2 h-80'>
                 <div className='w-full h-full p-10 flex shadow-3xl rounded-lg relative'>
                     <div className={`w-1 h-full absolute top-0 right-0 ${legend} rounded-lg`} />
                     <div className='min-w-[50%] h-full'>
@@ -44,7 +44,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
                 </div>
             </div>;
         }
-        else return <div className='p-4 basis-1/3 h-80 group hover:scale-95 transition-all cursor-pointer' onClick={()=> {return navigate('/add-new-product');}}>
+        else return <div className='p-4 basis-1/2 h-80 group hover:scale-95 transition-all cursor-pointer' onClick={()=> {return navigate('/add-new-product');}}>
             <div className='w-full h-full p-10 flex flex-col items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.15)] rounded-lg relative'>
                 <BiPlus size={30} className='fill-zinc-400' />
                 <p className='text-blue font-semibold text-sm mt-2'>Add New Product</p>

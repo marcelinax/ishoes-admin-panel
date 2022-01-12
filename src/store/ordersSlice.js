@@ -12,7 +12,7 @@ export const ordersSlice = createSlice({
             state.orders = { searchingOrders: [...searchingOrders], totalItems };
         },
         addOrder: (state, action) => {
-            state.orders = [...state.orders, action.payload];
+            state.orders = [action.payload, ...state.orders];
         },
         setOrder: (state, action) => {
             state.order = action.payload;

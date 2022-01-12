@@ -11,7 +11,7 @@ export const shoeProductsSlice = createSlice({
             state.shoeProducts = [...action.payload];
         },
         addShoeProduct: (state, action) => {
-            state.shoeProducts = [...state.shoeProducts, action.payload];
+            state.shoeProducts = [action.payload, ...state.shoeProducts];
         },
         deleteShoeProduct: (state, action) => {
             const id = action.payload;
