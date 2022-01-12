@@ -29,7 +29,6 @@ function App() {
   
     useEffect(() => {
         getBrands();
-       
     }, []);
     
     return (

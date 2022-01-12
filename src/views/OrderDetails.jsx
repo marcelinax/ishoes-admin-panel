@@ -38,8 +38,6 @@ export const OrderDetails = () => {
     }, [order]);
 
 
-
-
     const getOrder = async () => {
         await refreshOrder(params.id);
     };

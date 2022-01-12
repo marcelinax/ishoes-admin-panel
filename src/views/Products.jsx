@@ -151,10 +151,10 @@ export const Products = () => {
                     <Filter>
                         <div className='basis-5/6'>
                             <div className='w-full flex'>
-                                <div className='basis-4/5 mb-10 justify-between flex '>
-                                    <Search value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
+                                <div className='basis-4/5 mb-10 justify-between flex items-center'>
+                                    <Search id='search' placeholder='Search...' value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
                                     <div className='basis-1/2'>
-                                        <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 mr-5'>
+                                        <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 !mr-5'>
                                             {renderSelectTypeOptions()}
                                         </SelectInput>
                                         <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
@@ -164,7 +164,7 @@ export const Products = () => {
                                 </div>
                             
                             </div>
-                            <div className='w-full flex' >
+                            <div className='w-full flex'>
                                 <FilterItem title='Gender' className='mr-10'>
                                     {renderGendersCheckboxes()}
                                 </FilterItem>

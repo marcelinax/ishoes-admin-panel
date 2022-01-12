@@ -36,6 +36,15 @@
 }
 
 
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input, .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  color:#a1a1aa !important;
+}
+
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected, .css-195y93z-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
+  background-color:#5c61ed !important;
+}
+
+
 @layer utilities {
     .scrollbar::-webkit-scrollbar {
         width: 8px;

@@ -97,5 +97,6 @@ export const ERRORS = {
 export const ORDER_STATUSES = {
     IN_PROGRESS: 'in progress',
     CANCELED: 'canceled',
-    SHIPPED: 'shipped'
+    SHIPPED: 'shipped',
+    UNPAID: 'unpaid'
 };
