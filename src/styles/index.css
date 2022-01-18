@@ -73,3 +73,12 @@
 .spinner{
     animation: 2s rotateSpinnerLoader Infinite;
 }
+
+
+.sidebar-link--active > svg{
+    fill: #5c61ed;
+}
+
+.sidebar-link--active p{
+    color: #5c61ed ;
+}

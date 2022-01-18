@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, brand,isOnSale, onDeleteClick, onEditClick, legend, calcProductPrice }) => {
+export const ProductCard = ({id, isEmpty, bgImage, size, amount, price, model, brand ,isOnSale, onDeleteClick, onEditClick, legend, calcProductPrice }) => {
 
     const navigate = useNavigate();
     
@@ -25,6 +25,7 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
                         <div className='basis-2/4 flex flex-col'>
                             <p className='font-semibold text-sm'>{brand}</p>
                             <p className='text-gray text-sm font-semibold'>{model}</p>
+                            <p className='font-semibold text-sm mt-2 text-blue'>{id}</p>
                         </div>
                         <div className='basis-1/4 flex flex-col justify-between'>
                             <p className='font-semibold text-sm text-neutral-green'>Size: {size}</p>
@@ -62,6 +63,12 @@ export const ProductCard = ({ isEmpty, bgImage, size, amount, price, model, bran
 
 ProductCard.propTypes = {
     isEmpty: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
     bgImage: PropTypes.string,
-    isOnSale: PropTypes.bool
+    isOnSale: PropTypes.bool,
+    model: PropTypes.string,
+    brand: PropTypes.string,
+    size: PropTypes.number,
+    amount: PropTypes.number,
+    price: PropTypes.number
 };

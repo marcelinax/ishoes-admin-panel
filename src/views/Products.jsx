@@ -93,7 +93,7 @@ export const Products = () => {
     const renderProductCards = () => {
         if (shoeProducts) {
             return shoeProducts.searchingShoeProducts.map(product => {return (
-                <ProductCard key={product._id} calcProductPrice={calcProductPrice(product)} isOnSale={product.isOnSale} legend={setLegendsForShoeProducts(product)} onEditClick={()=>{return onEditClick(product);}} isEmpty={false} onDeleteClick={()=>{onDeleteProductShoeClick(product._id);}} amount={product.amount} brand={product.brand.name} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
+                <ProductCard id={product._id} key={product._id} calcProductPrice={calcProductPrice(product)} isOnSale={product.isOnSale} legend={setLegendsForShoeProducts(product)} onEditClick={()=>{return onEditClick(product);}} isEmpty={false} onDeleteClick={()=>{onDeleteProductShoeClick(product._id);}} amount={product.amount} brand={product.brand.name} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
             );});
         }
     };
@@ -122,28 +122,27 @@ export const Products = () => {
         }
     };
 
-    // const getLegendsByParam = (param) => {
-    //     return LEGENDS.legends.filter(legend => {return legend.title === param;})[0].color;
-    // };
     const getLegendsByParam = (param) => {
         return LEGENDS.legends.filter(legend => { return legend.title === param; }).map((legend, index) => (
-            <Legend color={legend.color} content={legend.content} key={index} className='mr-2'/>
+            <Legend color={legend.color} content={legend.content} key={index} />
         ));
     };
     const setLegendsForShoeProducts = (shoeProduct) => {
+        const legends = [];
         if (shoeProduct.amount === 0) {
-            return getLegendsByParam(LEGENDS.legendsTitles.OUT_OF_STOCK);
+            legends.push(LEGENDS.legendsTitles.OUT_OF_STOCK);
         }
         if (shoeProduct.amount <= 5) {
-            return getLegendsByParam(LEGENDS.legendsTitles.LAST_PAIRS);
+            legends.push(LEGENDS.legendsTitles.LAST_PAIRS);
         }
         if (shoeProduct.isOnSale) {
-            return getLegendsByParam(LEGENDS.legendsTitles.ON_SALE);
+            legends.push(LEGENDS.legendsTitles.ON_SALE);
         }
-        if (moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7,'days').format('DD:MM:YYYY')) {
-            return getLegendsByParam(LEGENDS.legendsTitles.NEW);
+        if (moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7, 'days').format('DD:MM:YYYY')) {
+            legends.push(LEGENDS.legendsTitles.NEW);
         }
-        else return getLegendsByParam(LEGENDS.legendsTitles.IN_STOCK);
+       
+        return legends.map(legend =>getLegendsByParam(legend));
     };
 
     const renderLegendsItems = () => {
