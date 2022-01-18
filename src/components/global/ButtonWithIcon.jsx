@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const ButtonWithIcon = ({icon, className, onClick}) => {
+export const ButtonWithIcon = ({children, type, className, onClick}) => {
     return (
-        <div className={`cursor-pointer hover:scale-90 transition-all ${className}`} onClick={onClick}>
-            {icon}
-        </div>
+        <button type={type} className={`flex items-center text-sm font-medium px-3 text-white shadow-md rounded-md py-1 cursor-pointer hover:scale-90 transition-all ${className}`} onClick={onClick}>
+            {children}
+        </button>
     );
 };
 
 ButtonWithIcon.propTypes = {
-    icon: PropTypes.element.isRequired,
+    children: PropTypes.element.isRequired,
+    type: PropTypes.string.isRequired,
     className: PropTypes.string
 };

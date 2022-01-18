@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const NavbarLink = ({title, icon, to}) => {
+export const SidebarLink = ({title, icon, to}) => {
     return (
         <Link to={to}>
             <div className='w-full flex flex-col items-center mb-10 cursor-pointer group transition-all'>
@@ -13,7 +13,7 @@ export const NavbarLink = ({title, icon, to}) => {
     );
 };
 
-NavbarLink.propTypes = {
+SidebarLink.propTypes = {
     title: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
     icon: PropTypes.element.isRequired

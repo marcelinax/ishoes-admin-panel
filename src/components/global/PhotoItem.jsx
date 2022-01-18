@@ -4,6 +4,8 @@ import { BiPlus, BiX } from 'react-icons/bi';
 import React, { useEffect, useState } from 'react';
 
 import { Spinner } from './Spinner';
+import axios from 'axios';
+import { config } from './../../config/Config';
 
 export const PhotoItem = ({ onFileUpload, onFileRemove, value}) => {
     
@@ -31,22 +33,21 @@ export const PhotoItem = ({ onFileUpload, onFileRemove, value}) => {
         setUploadUrl(null);
     };
 
-    const uploadFile = () => {
+    const uploadFile = async () => {
         setLoading(true);
-        const upload = new tus.Upload(file, {
-            endpoint: 'https://master.tus.io/files/',
-            retryDelays: [0, 3000, 5000, 10000, 20000],
-            metadata: {
-                filename: file.name,
-                filetype: file.type
-            },
-            onSuccess: function() {
-                setUploadUrl(upload.url);
-                onFileUpload(upload.url);
-                setLoading(false);
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await axios.post(config.apiUrl + 'files/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
         });
-        upload.start();
+
+        const fileUrl = config.apiUrl + res.data.url;
+        setUploadUrl(fileUrl);
+        onFileUpload(fileUrl);
+        setLoading(false);
     };
 
     return (

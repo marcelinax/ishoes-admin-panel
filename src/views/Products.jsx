@@ -9,6 +9,7 @@ import { Filter } from '../components/filter/Filter';
 import { FilterItem } from '../components/filter/FilterItem';
 import { Legend } from './../components/global/Legend';
 import MenuItem from '@mui/material/MenuItem';
+import { Pagination } from '../components/global/Pagination';
 import { ProductCard } from './../components/ProductCard';
 import { Search } from '../components/global/Search';
 import { SelectInput } from '../components/inputs/SelectInput';
@@ -27,6 +28,7 @@ export const Products = () => {
     const [selectedBrand, setSelectedBrand] = useState('');
     const [sortBy, setSortBy] = useState('all');
     const [search, setSearch] = useState('');
+    const [page, setPage] = useState(1);
     const [genders, setGenders] = useState([]);
     const [isLegendShown, setIsLegendShown] = useState(false);
     const [isOnSale, setIsOnSale] = useState(null);
@@ -50,13 +52,16 @@ export const Products = () => {
             gender: [...genders],
             isOnSale,
             isOutOfStock,
-            sortBy
+            sortBy,
+            page
         });
-    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock,sortBy]);
+    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock,sortBy,page]);
     
     useEffect(() => {
-        refreshShoes();
-    },[]);
+        refreshShoes({
+            page
+        });
+    },[page]);
    
 
     const onSelectedTypeChange = (e) => {
@@ -87,7 +92,7 @@ export const Products = () => {
 
     const renderProductCards = () => {
         if (shoeProducts) {
-            return shoeProducts.map(product => {return (
+            return shoeProducts.searchingShoeProducts.map(product => {return (
                 <ProductCard key={product._id} calcProductPrice={calcProductPrice(product)} isOnSale={product.isOnSale} legend={setLegendsForShoeProducts(product)} onEditClick={()=>{return onEditClick(product);}} isEmpty={false} onDeleteClick={()=>{onDeleteProductShoeClick(product._id);}} amount={product.amount} brand={product.brand.name} model={product.model} size={product.size} bgImage={product.photos[0]} price={product.price}/>
             );});
         }
@@ -103,6 +108,10 @@ export const Products = () => {
         navigate(`/edit-product/${shoeProduct._id}`);
     };
 
+    const onPageChange = (e, value) => {
+        setPage(value);
+    };
+
     const onGenderChange = (gender) => {
         if (!genders.includes(gender)) {
             setGenders([...genders,gender]);
@@ -113,8 +122,13 @@ export const Products = () => {
         }
     };
 
+    // const getLegendsByParam = (param) => {
+    //     return LEGENDS.legends.filter(legend => {return legend.title === param;})[0].color;
+    // };
     const getLegendsByParam = (param) => {
-        return LEGENDS.legends.filter(legend => {return legend.title === param;})[0].color;
+        return LEGENDS.legends.filter(legend => { return legend.title === param; }).map((legend, index) => (
+            <Legend color={legend.color} content={legend.content} key={index} className='mr-2'/>
+        ));
     };
     const setLegendsForShoeProducts = (shoeProduct) => {
         if (shoeProduct.amount === 0) {
@@ -134,7 +148,7 @@ export const Products = () => {
 
     const renderLegendsItems = () => {
         return LEGENDS.legends.map(legend => {return (
-            <Legend className='mb-2' color={legend.color} title={legend.title} key={legend.title}/>
+            <Legend className='mb-2' color={legend.color} title={legend.title} content={legend.content} key={legend.title}/>
         );});
     };
 
@@ -149,6 +163,7 @@ export const Products = () => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
         );});
     };
+
     
 
     return (
@@ -202,9 +217,12 @@ export const Products = () => {
                     </SelectInput>
                 </div>
                 <div className='w-full mt-4 mb-10'>
-                    <div className='w-full max-h-[80vh] flex flex-wrap overflow-auto'>
+                    <div className='w-full flex flex-wrap'>
                         <ProductCard isEmpty={true}/>
                         {renderProductCards()}
+                    </div>
+                    <div className='w-full flex justify-center mt-10'>
+                        <Pagination count={Math.ceil(shoeProducts.totalItems / 10)} page={page} onChange={onPageChange}/>
                     </div>
                 </div>
             </DefaultLayout>

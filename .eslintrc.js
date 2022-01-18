@@ -22,7 +22,7 @@ module.exports = {
         indent: ['error', 4], 
         'react/jsx-filename-extension': ['off'],
         'react/prefer-stateless-function': ['off'],
-        'arrow-body-style': ['error', 'always'],
+        'arrow-body-style': 'off',
         'no-multi-spaces': ['error'],
         'react/self-closing-comp': ['error', {
             'component': true,

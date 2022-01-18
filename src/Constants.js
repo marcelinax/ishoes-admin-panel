@@ -1,3 +1,7 @@
+import { BiDollar, BiNoEntry, BiTimer } from 'react-icons/bi';
+
+import React from 'react';
+
 export const TYPES = {
     types: [
         'All',
@@ -59,15 +63,13 @@ export const MATERIALS = {
 
 export const LEGENDS = {
     legends: [
-        {title: 'Out of stock', color: 'bg-gray'},
-        {title: 'In stock', color: 'bg-blue'},
-        {title: 'On sale', color: 'bg-red-600'},
-        {title: 'New', color: 'bg-neutral-green'},
-        {title: 'Last pairs', color: 'bg-yellow-400'},
+        {title: 'Out of stock', color: 'bg-gray', content: <BiNoEntry size={12} fill='#fff'/>},
+        {title: 'On sale', color: 'bg-red-600', content: <BiDollar size={12} fill='#fff'/>},
+        {title: 'New', color: 'bg-neutral-green', content: <p className='text-[9px] text-center text-white'>New</p>},
+        {title: 'Last pairs', color: 'bg-yellow-400', content: <BiTimer size={12} fill='#fff'/>},
     ],
     legendsTitles: {
         OUT_OF_STOCK: 'Out of stock',
-        IN_STOCK: 'In stock',
         ON_SALE: 'On sale',
         NEW: 'New',
         LAST_PAIRS: 'Last pairs',

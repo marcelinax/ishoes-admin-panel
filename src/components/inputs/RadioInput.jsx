@@ -8,7 +8,7 @@ import React from 'react';
 export const RadioInput = ({radioGroupClassName, formControlLabelClassName, radioClassName, onChange, value, label, showAllOptions = false}) => {
     return (
         <FormControl component="fieldset">
-            <FormLabel component="legend" className='text-gray text-xs font-semibold'>{label && label.toUpperCase()}</FormLabel>
+            <FormLabel component="legend" className='!text-gray !text-xs !font-semibold'>{label && label.toUpperCase()}</FormLabel>
             <RadioGroup
                 aria-label={label}
                 name="controlled-radio-buttons-group"
