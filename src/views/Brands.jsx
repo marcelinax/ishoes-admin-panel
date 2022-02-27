@@ -57,26 +57,24 @@ export const Brands = () => {
     };
 
     return (
-        <div>
-            <DefaultLayout className='mt-10'>
-                <div className='w-2/3 mx-auto h-[40vh] rounded-md bg-white shadow-3xl mb-10'>
-                    <form onSubmit={onSubmit}>
-                        <div className='w-full p-16'>
-                            <h1 className='text-3xl font-semibold mb-12 text-blue'>Brands</h1>
-                            <div className='w-full flex justify-between'>
-                                <div className='basis-1/2 mr-16'>
-                                    <Input id='brand' title='Brand' type='text' value={brand} onChange={handleBrandInput}/>
-                                </div>
-                                <div className='basis-1/2 h-full rounded-md'>
-                                    <div className='max-h-[15vh] flex flex-col overflow-auto scrollbar shadow-inner p-4'>
-                                        {renderBrandsItems()}
-                                    </div>
+        <DefaultLayout className='mt-10'>
+            <div className='w-2/3 mx-auto h-[40vh] rounded-md bg-white shadow-3xl mb-10'>
+                <form onSubmit={onSubmit}>
+                    <div className='w-full p-16'>
+                        <h1 className='text-3xl font-semibold mb-12 text-blue'>Brands</h1>
+                        <div className='w-full flex justify-between'>
+                            <div className='basis-1/2 mr-16'>
+                                <Input id='brand' title='Brand' type='text' value={brand} onChange={handleBrandInput}/>
+                            </div>
+                            <div className='basis-1/2 h-full rounded-md'>
+                                <div className='max-h-[15vh] flex flex-col overflow-auto scrollbar shadow-inner p-4'>
+                                    {renderBrandsItems()}
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </DefaultLayout>
-        </div>
+                    </div>
+                </form>
+            </div>
+        </DefaultLayout>
     );
 };

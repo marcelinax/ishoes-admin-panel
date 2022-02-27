@@ -10,15 +10,18 @@ import { Homepage } from './views/Homepage';
 import { OrderDetails } from './views/OrderDetails';
 import { Orders } from './views/Orders';
 import { Products } from './views/Products';
+import { Shop } from './views/Shop';
 import { ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { config } from './config/Config';
 import { setBrands } from './store/brandsSlice';
 import { useDispatch } from 'react-redux';
+import { useRefreshShoeProducts } from './hooks/useRefreshShoeProducts';
 
 function App() {
 
     const dispatch = useDispatch();
+ 
     const getBrands = async () => {
         try {
             await axios.get(config.apiUrl + 'brands/').then(res => {return dispatch(setBrands(res.data));});
@@ -29,6 +32,7 @@ function App() {
   
     useEffect(() => {
         getBrands();
+        
     }, []);
     
     return (
@@ -43,6 +47,7 @@ function App() {
                     <Route path='/edit-product/:id' element={<EditShoeProduct/>}/>
                     <Route path='/orders' element={<Orders/>}/>
                     <Route path='/order-details/:id' element={<OrderDetails/>}/>
+                    <Route path='/shop' element={<Shop/>}/>
                 </Routes>
             </BrowserRouter>
         </>

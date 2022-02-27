@@ -49,7 +49,7 @@ export const Products = () => {
             query: search,
             type: selectedType,
             brand: selectedBrand,
-            gender: [...genders],
+            genders: [...genders],
             isOnSale,
             isOutOfStock,
             sortBy,
@@ -57,12 +57,6 @@ export const Products = () => {
         });
     }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock,sortBy,page]);
     
-    useEffect(() => {
-        refreshShoes({
-            page
-        });
-    },[page]);
-   
 
     const onSelectedTypeChange = (e) => {
         setSelectedType(e.target.value);
@@ -166,66 +160,64 @@ export const Products = () => {
     
 
     return (
-        <>
-            <DefaultLayout className='mt-20 flex flex-col'>
-                <div className='w-full px-4'>
-                    <Filter>
-                        <div className='basis-5/6'>
-                            <div className='w-full flex'>
-                                <div className='basis-4/5 mb-10 justify-between flex items-center'>
-                                    <Search id='search' placeholder='Search...' value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
-                                    <div className='basis-1/2'>
-                                        <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 !mr-5'>
-                                            {renderSelectTypeOptions()}
-                                        </SelectInput>
-                                        <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
-                                            {renderSelectBrandOptions()}
-                                        </SelectInput>
-                                    </div>
+        <DefaultLayout className='mt-20 flex flex-col'>
+            <div className='w-full px-4'>
+                <Filter>
+                    <div className='basis-5/6'>
+                        <div className='w-full flex'>
+                            <div className='basis-4/5 mb-10 justify-between flex items-center'>
+                                <Search id='search' placeholder='Search...' value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
+                                <div className='basis-1/2'>
+                                    <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 !mr-5'>
+                                        {renderSelectTypeOptions()}
+                                    </SelectInput>
+                                    <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
+                                        {renderSelectBrandOptions()}
+                                    </SelectInput>
                                 </div>
+                            </div>
                             
-                            </div>
-                            <div className='w-full flex'>
-                                <FilterItem title='Gender' className='mr-10'>
-                                    {renderGendersCheckboxes()}
-                                </FilterItem>
-                                <FilterItem title='On sale' className='mr-10'>
-                                    <Checkbox title='Yes' value={isOnSale} onChange={()=> {return setIsOnSale(true);}} className='mr-3'/>
-                                    <Checkbox title='No' value={isOnSale === false} onChange={()=> {return setIsOnSale(false);}} className='mr-3'/>
-                                    <Checkbox title='All' value={isOnSale === null} onChange={()=> {return setIsOnSale(null);}}/>
-                                </FilterItem>
-                                <FilterItem title='Out of stock' >
-                                    <Checkbox title='Yes' value={isOutOfStock === true} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
-                                    <Checkbox title='No' value={isOutOfStock === false} onChange={()=> {return setIsOutOfStock(false);}} className='mr-3'/>
-                                    <Checkbox title='All' value={isOutOfStock === null} onChange={() => { return setIsOutOfStock(null); }} />
-                                </FilterItem>
-                                <div />
-                            </div>
                         </div>
-                        <div className='basis-1/6 relative'>
-                            <BiInfoCircle className='absolute z-10 cursor-pointer top-0 right-0 fill-gray' size={20} onMouseOver={()=>{return setIsLegendShown(true);}} onMouseLeave={()=>{return setIsLegendShown(false);}}/>
-                            <div className={`basis-1/5 transition-all flex flex-col ${isLegendShown ? 'opacity-100' : 'opacity-0'}`}>
-                                {renderLegendsItems()}
-                            </div>
+                        <div className='w-full flex'>
+                            <FilterItem title='Gender' className='mr-10'>
+                                {renderGendersCheckboxes()}
+                            </FilterItem>
+                            <FilterItem title='On sale' className='mr-10'>
+                                <Checkbox title='Yes' value={isOnSale} onChange={()=> {return setIsOnSale(true);}} className='mr-3'/>
+                                <Checkbox title='No' value={isOnSale === false} onChange={()=> {return setIsOnSale(false);}} className='mr-3'/>
+                                <Checkbox title='All' value={isOnSale === null} onChange={()=> {return setIsOnSale(null);}}/>
+                            </FilterItem>
+                            <FilterItem title='Out of stock' >
+                                <Checkbox title='Yes' value={isOutOfStock === true} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
+                                <Checkbox title='No' value={isOutOfStock === false} onChange={()=> {return setIsOutOfStock(false);}} className='mr-3'/>
+                                <Checkbox title='All' value={isOutOfStock === null} onChange={() => { return setIsOutOfStock(null); }} />
+                            </FilterItem>
+                            <div />
                         </div>
-                    </Filter>
-                </div>
-                <div className='w-full px-4 flex mt-16 justify-end'>
-                    <SelectInput name='sortBy' label='Sort by' value={sortBy} onChange={onSortByChange} className='w-1/12' >
-                        {renderSortByItems()}
-                    </SelectInput>
-                </div>
-                <div className='w-full mt-4 mb-10'>
-                    <div className='w-full flex flex-wrap'>
-                        <ProductCard isEmpty={true}/>
-                        {renderProductCards()}
                     </div>
-                    <div className='w-full flex justify-center mt-10'>
-                        <Pagination count={Math.ceil(shoeProducts.totalItems / 10)} page={page} onChange={onPageChange}/>
+                    <div className='basis-1/6 relative'>
+                        <BiInfoCircle className='absolute z-10 cursor-pointer top-0 right-0 fill-gray' size={20} onMouseOver={()=>{return setIsLegendShown(true);}} onMouseLeave={()=>{return setIsLegendShown(false);}}/>
+                        <div className={`basis-1/5 transition-all flex flex-col ${isLegendShown ? 'opacity-100' : 'opacity-0'}`}>
+                            {renderLegendsItems()}
+                        </div>
                     </div>
+                </Filter>
+            </div>
+            <div className='w-full px-4 flex mt-16 justify-end'>
+                <SelectInput name='sortBy' label='Sort by' value={sortBy} onChange={onSortByChange} className='w-1/12' >
+                    {renderSortByItems()}
+                </SelectInput>
+            </div>
+            <div className='w-full mt-4 mb-10'>
+                <div className='w-full flex flex-wrap'>
+                    <ProductCard isEmpty={true} id='empty-card'/>
+                    {renderProductCards()}
                 </div>
-            </DefaultLayout>
-        </>
+                <div className='w-full flex justify-center mt-10'>
+                    <Pagination count={Math.ceil(shoeProducts.totalItems / 10)} page={page} onChange={onPageChange}/>
+                </div>
+            </div>
+        </DefaultLayout>
        
     );
 };

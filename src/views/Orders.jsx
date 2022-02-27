@@ -132,77 +132,73 @@ export const Orders = () => {
     };
 
     return (
-        <>
-            <DefaultLayout className='mt-10'>
-                {showChangeStatusModal && <RadioModal onSaveClick={onSaveClick} title='Change Order Status' description='Choose the current status for the order' closeModal={onCloseModalClick}>
-                    <Checkbox title='In progress' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.IN_PROGRESS} onChange={()=> {return setStatus(ORDER_STATUSES.IN_PROGRESS);}}/>
-                    <Checkbox title='Shipped' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.SHIPPED} onChange={()=> {return setStatus(ORDER_STATUSES.SHIPPED);}}/>
-                    <Checkbox title='Canceled' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.CANCELED} onChange={()=> {return setStatus(ORDER_STATUSES.CANCELED);}}/>
-                </RadioModal>}
-                <Filter>
-                    <div className='w-full flex flex-col'>
-                        <div className='w-full flex'>
-                            <Search id='orderId' placeholder='Search by order ID' value={filterData.orderId} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
-                            <Search id='email' placeholder='Search by email' value={filterData.email} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
-                            <Search id='phone' placeholder='Search by number phone' value={filterData.phone} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
-                        </div>
-                        <div className='w-2/3 flex mt-6'>
-                            <DateInput value={filterData.dateOfOrder} label="Order date" onChange={(e) => {
-                                return setFilterData({
-                                    ... filterData, dateOfOrder: e
-                                });
-                            }} className={'!basis-1/3 mr-5'}
-                            hasButton={true} onButtonClick={() => {return setFilterData({
-                                ...filterData,
-                                dateOfOrder: null
-                            });}}
-                            />
-                            <DateInput label="Send date" onChange={(e) => {
-                                return setFilterData({
-                                    ... filterData, sendDate: e
-                                });
-                            }} value={filterData.sendDate} className={'!basis-1/3 mr-5'}
-                            hasButton={true} onButtonClick={() => {return setFilterData({
-                                ...filterData,
-                                sendDate: null
-                            });}}
-                            />
-                            <SelectInput name='status' value={filterData.status} onChange={(e) => {return setFilterData(
-                                {
-                                    ...filterData,
-                                    status: e.target.value
-                                }
-                            );
-                            }} label='Status' className='basis-1/3'>
-                                <MenuItem key='All' value='all'>all</MenuItem>
-                                {renderStatusSelectOptions()}
-                            </SelectInput>
-                        </div>
+        <DefaultLayout className='mt-10'>
+            {showChangeStatusModal && <RadioModal onSaveClick={onSaveClick} title='Change Order Status' description='Choose the current status for the order' closeModal={onCloseModalClick}>
+                <Checkbox title='In progress' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.IN_PROGRESS} onChange={()=> {return setStatus(ORDER_STATUSES.IN_PROGRESS);}}/>
+                <Checkbox title='Shipped' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.SHIPPED} onChange={()=> {return setStatus(ORDER_STATUSES.SHIPPED);}}/>
+                <Checkbox title='Canceled' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.CANCELED} onChange={()=> {return setStatus(ORDER_STATUSES.CANCELED);}}/>
+            </RadioModal>}
+            <Filter>
+                <div className='w-full flex flex-col'>
+                    <div className='w-full flex'>
+                        <Search id='orderId' placeholder='Search by order ID' value={filterData.orderId} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
+                        <Search id='email' placeholder='Search by email' value={filterData.email} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
+                        <Search id='phone' placeholder='Search by number phone' value={filterData.phone} onChange={onSearchInputChange} className='basis-1/3 mr-5' />
                     </div>
-                </Filter>
-                <TablePagination rowsPerPage={8} labelRowsPerPage={false} rowsPerPageOptions={[8]} count={orders.totalItems} page={filterData.page} onPageChange={(e, newPage) => {return setFilterData({
-                    ...filterData,
-                    page: newPage
-                });}}
-                className='mt-10' />
-                <Table >
-                    <tbody>
-                        <TableRow className='bg-blue'>
-                            <TableHeading title='order id'/>
-                            <TableHeading title='income'/>
-                            <TableHeading title='date'/>
-                            <TableHeading title='status' />
-                            <TableHeading title=''/>
-                            <TableHeading title='phone'/>
-                            <TableHeading title='email'/>
-                            <TableHeading title=''/>
-                        </TableRow>
-                        {renderOrders()}
-                    </tbody>
-                </Table>
-            </DefaultLayout>
-        </>
+                    <div className='w-2/3 flex mt-6'>
+                        <DateInput value={filterData.dateOfOrder} label="Order date" onChange={(e) => {
+                            return setFilterData({
+                                ... filterData, dateOfOrder: e
+                            });
+                        }} className={'!basis-1/3 mr-5'}
+                        hasButton={true} onButtonClick={() => {return setFilterData({
+                            ...filterData,
+                            dateOfOrder: null
+                        });}}
+                        />
+                        <DateInput label="Send date" onChange={(e) => {
+                            return setFilterData({
+                                ... filterData, sendDate: e
+                            });
+                        }} value={filterData.sendDate} className={'!basis-1/3 mr-5'}
+                        hasButton={true} onButtonClick={() => {return setFilterData({
+                            ...filterData,
+                            sendDate: null
+                        });}}
+                        />
+                        <SelectInput name='status' value={filterData.status} onChange={(e) => {return setFilterData(
+                            {
+                                ...filterData,
+                                status: e.target.value
+                            }
+                        );
+                        }} label='Status' className='basis-1/3'>
+                            <MenuItem key='All' value='all'>all</MenuItem>
+                            {renderStatusSelectOptions()}
+                        </SelectInput>
+                    </div>
+                </div>
+            </Filter>
+            <TablePagination rowsPerPage={8} labelRowsPerPage={false} rowsPerPageOptions={[8]} count={orders.totalItems} page={filterData.page} onPageChange={(e, newPage) => {return setFilterData({
+                ...filterData,
+                page: newPage
+            });}}
+            className='mt-10' />
+            <Table >
+                <tbody>
+                    <TableRow className='bg-blue'>
+                        <TableHeading title='order id'/>
+                        <TableHeading title='income'/>
+                        <TableHeading title='date'/>
+                        <TableHeading title='status' />
+                        <TableHeading title=''/>
+                        <TableHeading title='phone'/>
+                        <TableHeading title='email'/>
+                        <TableHeading title=''/>
+                    </TableRow>
+                    {renderOrders()}
+                </tbody>
+            </Table>
+        </DefaultLayout>
     );
 };
-
-// 

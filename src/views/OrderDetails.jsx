@@ -75,72 +75,70 @@ export const OrderDetails = () => {
     
     return (
         order && (
-            <>
-                <DefaultLayout className='mt-10'>
-                    {showChangeStatusModal && <RadioModal onSaveClick={onSaveClick} title='Change Order Status' description='Choose the current status for the order' closeModal={onCloseModalClick}>
-                        <Checkbox title='In progress' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.IN_PROGRESS} onChange={()=> {return setStatus(ORDER_STATUSES.IN_PROGRESS);}}/>
-                        <Checkbox title='Shipped' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.SHIPPED} onChange={()=> {return setStatus(ORDER_STATUSES.SHIPPED);}}/>
-                        <Checkbox title='Canceled' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.CANCELED} onChange={()=> {return setStatus(ORDER_STATUSES.CANCELED);}}/>
-                    </RadioModal>}
+            <DefaultLayout className='mt-10'>
+                {showChangeStatusModal && <RadioModal onSaveClick={onSaveClick} title='Change Order Status' description='Choose the current status for the order' closeModal={onCloseModalClick}>
+                    <Checkbox title='In progress' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.IN_PROGRESS} onChange={()=> {return setStatus(ORDER_STATUSES.IN_PROGRESS);}}/>
+                    <Checkbox title='Shipped' className='mb-5' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.SHIPPED} onChange={()=> {return setStatus(ORDER_STATUSES.SHIPPED);}}/>
+                    <Checkbox title='Canceled' iconClassName='fill-blue' value={status.toLowerCase() === ORDER_STATUSES.CANCELED} onChange={()=> {return setStatus(ORDER_STATUSES.CANCELED);}}/>
+                </RadioModal>}
+                <div className='w-full flex flex-col'>
                     <div className='w-full flex flex-col'>
-                        <div className='w-full flex flex-col'>
-                            <div className='w-full p-4 bg-blue rounded-md'>
-                                <h6 className='font-medium text-white'>Order {order._id}</h6>
-                            </div>
-                            <div className='w-full'>
-                                <div className='w-full flex flex-col p-6'>
-                                    <OrderDetailsRow title='Date' value={moment(order.createdAt).format('DD MMM YYYY HH:MM:SS')}/>
-                                    <OrderDetailsRow title='Status' value={order.status}>
-                                        <PrimaryButton onClick={()=> {return setShowChangeStatusModal(true);}} title='Change' type='button' className='w-fit !px-2 !py-2 bg-neutral-green text-[11px] ml-10' />
-                                    </OrderDetailsRow>
-                                    <OrderDetailsRow title='Send Date' value={order.sendDate ? order.sendDate : 'Not shipped yet'} />
-                                </div>
-                            </div>
+                        <div className='w-full p-4 bg-blue rounded-md'>
+                            <h6 className='font-medium text-white'>Order {order._id}</h6>
                         </div>
-                        <div className='w-full flex flex-col mt-6'>
-                            <div className='w-full p-4 bg-blue rounded-md'>
-                                <h6 className='font-medium text-white'>Buyer Information</h6>
-                            </div>
-                            <div className='w-full'>
-                                <div className='w-full flex flex-col p-6'>
-                                    <OrderDetailsRow title='Name' value={`${order.name} ${order.surname}`}/>
-                                    <OrderDetailsRow title='Email' value={order.email}/>
-                                    <OrderDetailsRow title='Phone Number' value={order.phone}/>
-                                    <OrderDetailsRow title='Shipping Address' value={`${order.deliveryAddress.address}, ${order.deliveryAddress.zipCode} ${order.deliveryAddress.city}`}/>
-                                    <OrderDetailsRow title='Additional Address Information' value={order.deliveryAddress.additionalInformation}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='w-full flex flex-col mt-6 mb-10'>
-                            <div className='w-full p-4 bg-blue rounded-md'>
-                                <h6 className='font-medium text-white'>Products</h6>
-                            </div>
-                            <div className='w-full mt-6  h-[30vh] overflow-auto scrollbar pb-5'>
-                                <div className='w-full pl-3 pr-3 bg-white'>
-                                    <Table>
-                                        <tbody>
-                                            <TableRow className='bg-gray '>
-                                                <TableHeading title='#' className='text-xs !py-2'/>
-                                                <TableHeading title='Product Name' className='text-xs !py-2' />
-                                                <TableHeading title='Discount %' className='text-xs !py-2'/>
-                                                <TableHeading title='Price' className='text-xs !py-2'/>
-                                            </TableRow>
-                                            {renderOrderProducts()}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                                
-                            </div>
-                            <div className='w-full mt-5'>
-                                <div className='w-full flex items-center justify-end px-4'>
-                                    <p className='font-bold text-gray mr-2'>TOTAL:</p>
-                                    <p className='text-gray'>${getTotalSum()}</p>
-                                </div>
+                        <div className='w-full'>
+                            <div className='w-full flex flex-col p-6'>
+                                <OrderDetailsRow title='Date' value={moment(order.createdAt).format('DD MMM YYYY HH:MM:SS')}/>
+                                <OrderDetailsRow title='Status' value={order.status}>
+                                    <PrimaryButton onClick={()=> {return setShowChangeStatusModal(true);}} title='Change' type='button' className='w-fit !px-2 !py-2 bg-neutral-green text-[11px] ml-10' />
+                                </OrderDetailsRow>
+                                <OrderDetailsRow title='Send Date' value={order.sendDate ? order.sendDate : 'Not shipped yet'} />
                             </div>
                         </div>
                     </div>
-                </DefaultLayout>
-            </>
+                    <div className='w-full flex flex-col mt-6'>
+                        <div className='w-full p-4 bg-blue rounded-md'>
+                            <h6 className='font-medium text-white'>Buyer Information</h6>
+                        </div>
+                        <div className='w-full'>
+                            <div className='w-full flex flex-col p-6'>
+                                <OrderDetailsRow title='Name' value={`${order.name} ${order.surname}`}/>
+                                <OrderDetailsRow title='Email' value={order.email}/>
+                                <OrderDetailsRow title='Phone Number' value={order.phone}/>
+                                <OrderDetailsRow title='Shipping Address' value={`${order.deliveryAddress.address}, ${order.deliveryAddress.zipCode} ${order.deliveryAddress.city}`}/>
+                                <OrderDetailsRow title='Additional Address Information' value={order.deliveryAddress.additionalInformation}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='w-full flex flex-col mt-6 mb-10'>
+                        <div className='w-full p-4 bg-blue rounded-md'>
+                            <h6 className='font-medium text-white'>Products</h6>
+                        </div>
+                        <div className='w-full mt-6  h-[30vh] overflow-auto scrollbar pb-5'>
+                            <div className='w-full pl-3 pr-3 bg-white'>
+                                <Table>
+                                    <tbody>
+                                        <TableRow className='bg-gray '>
+                                            <TableHeading title='#' className='text-xs !py-2'/>
+                                            <TableHeading title='Product Name' className='text-xs !py-2' />
+                                            <TableHeading title='Discount %' className='text-xs !py-2'/>
+                                            <TableHeading title='Price' className='text-xs !py-2'/>
+                                        </TableRow>
+                                        {renderOrderProducts()}
+                                    </tbody>
+                                </Table>
+                            </div>
+                                
+                        </div>
+                        <div className='w-full mt-5'>
+                            <div className='w-full flex items-center justify-end px-4'>
+                                <p className='font-bold text-gray mr-2'>TOTAL:</p>
+                                <p className='text-gray'>${getTotalSum()}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </DefaultLayout>
         )
     );
 };

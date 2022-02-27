@@ -277,59 +277,57 @@ export const EditShoeProduct = () => {
 
 
     return (
-        <div>
-            <DefaultLayout className='mt-10'>
-                <div className='w-2/3 mx-auto bg-white shadow-3xl mb-10 rounded-md'>
-                    <form onSubmit={onSubmit}>
-                        <div className='w-full p-16'>
-                            <h1 className='text-3xl font-semibold mb-12 text-blue'>Edit</h1>
-                            <div className='w-full flex items-end'>
-                                <Input type='text' title='Model' id='model' className='basis-1/2 mr-3' value={formData.model} onChange={onChange} error={filterFormInputsErrors(ERRORS.MODEL_IS_REQUIRED)} />
-                                <SelectInput name='brand' label='Brand' value={formData.brand} onChange={onSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>
-                                    {renderBrandSelectOptions()}
-                                </SelectInput>
-                            </div>
-                            <div className='w-full flex items-end mt-8'>
-                                <SelectInput name='size' label='Size' value={formData.size} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.SIZE_IS_REQUIRED)}>
-                                    {renderSizeSelectOptions()}
-                                </SelectInput>
-                                <SelectInput name='gender' label='Gender' value={formData.gender} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.GENDER_IS_REQUIRED)}>
-                                    {renderGenderSelectOptions()}
-                                </SelectInput>
-                                <SelectInput name='type' label='Type' value={formData.type} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.TYPE_IS_REQUIRED)}>
-                                    {renderTypeSelectOptions()}
-                                </SelectInput>
-                                <SelectInput name='material' label='Material' value={formData.material} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.MATERIAL_IS_REQUIRED)}>
-                                    {renderMaterialSelectOptions()}
-                                </SelectInput>
-                                <Input type='number' title='Amount' id='amount' value={formData.amount} onChange={onChange} className='basis-1/6 !appearance-none' error={filterFormInputsErrors(ERRORS.AMOUNT_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.AMOUNT_IS_REQUIRED)}/>
-                            </div>
-                            <div className='w-full flex justify-between items-center mt-8'>
-                                <Input type='number' title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
-                                <div className='flex items-center'>
-                                    <RadioInput value={formData.isOnSale} label='On sale' onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
-                                    <Input disabled={!formData.isOnSale } type='number' title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
-                                </div>
-                            </div>
-                            <div className='w-full flex flex-col mt-8 '>
-                                {filterFormInputsErrors(ERRORS.COLORS_IS_REQUIRED) && <span className='text-xs mb-2 text-red-600 font-medium'>{filterFormInputsErrors(ERRORS.COLORS_IS_REQUIRED)}</span>}
-                                <div className='w-full flex'>
-                                    {renderColorsItems()}
-                                </div>
-                            </div>
-                            <div className='w-full flex flex-col mt-8 overflow-auto pb-5 scrollbar'>
-                                {filterFormInputsErrors(ERRORS.PHOTOS_IS_REQUIRED) && <span className='text-xs mb-2 text-red-600 font-medium'>{filterFormInputsErrors(ERRORS.PHOTOS_IS_REQUIRED)}</span>}
-                                <div className='w-full flex'>
-                                    {renderPhotosItems()}
-                                </div>
-                            </div>
-                            <div className='w-full flex justify-end mt-10'>
-                                <PrimaryButton title='SAVE' type='submit' onClick={onSubmit} className='w-1/6 bg-blue'/>
+        <DefaultLayout className='mt-10'>
+            <div className='w-2/3 mx-auto bg-white shadow-3xl mb-10 rounded-md'>
+                <form onSubmit={onSubmit}>
+                    <div className='w-full p-16'>
+                        <h1 className='text-3xl font-semibold mb-12 text-blue'>Edit</h1>
+                        <div className='w-full flex items-end'>
+                            <Input type='text' title='Model' id='model' className='basis-1/2 mr-3' value={formData.model} onChange={onChange} error={filterFormInputsErrors(ERRORS.MODEL_IS_REQUIRED)} />
+                            <SelectInput name='brand' label='Brand' value={formData.brand} onChange={onSelectChange} className='basis-1/2' error={filterFormInputsErrors(ERRORS.BRAND_IS_REQUIRED)}>
+                                {renderBrandSelectOptions()}
+                            </SelectInput>
+                        </div>
+                        <div className='w-full flex items-end mt-8'>
+                            <SelectInput name='size' label='Size' value={formData.size} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.SIZE_IS_REQUIRED)}>
+                                {renderSizeSelectOptions()}
+                            </SelectInput>
+                            <SelectInput name='gender' label='Gender' value={formData.gender} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.GENDER_IS_REQUIRED)}>
+                                {renderGenderSelectOptions()}
+                            </SelectInput>
+                            <SelectInput name='type' label='Type' value={formData.type} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.TYPE_IS_REQUIRED)}>
+                                {renderTypeSelectOptions()}
+                            </SelectInput>
+                            <SelectInput name='material' label='Material' value={formData.material} onChange={onSelectChange} className='basis-1/6 !mr-3' error={filterFormInputsErrors(ERRORS.MATERIAL_IS_REQUIRED)}>
+                                {renderMaterialSelectOptions()}
+                            </SelectInput>
+                            <Input type='number' title='Amount' id='amount' value={formData.amount} onChange={onChange} className='basis-1/6 !appearance-none' error={filterFormInputsErrors(ERRORS.AMOUNT_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.AMOUNT_IS_REQUIRED)}/>
+                        </div>
+                        <div className='w-full flex justify-between items-center mt-8'>
+                            <Input type='number' title='Price' id='price' value={formData.price} onChange={onChange} error={filterFormInputsErrors(ERRORS.PRICE_IS_NOT_A_NUMBER) || filterFormInputsErrors(ERRORS.PRICE_IS_REQUIRED)}/>
+                            <div className='flex items-center'>
+                                <RadioInput value={formData.isOnSale} label='On sale' onChange={onIsOnSaleChange} formControlLabelClassName='text-gray font-semibold' radioGroupClassName='!flex-row  mt-3' radioClassName='text-blue' />
+                                <Input disabled={!formData.isOnSale } type='number' title='Discount %' id='discount' value={formData.discount} onChange={onChange} className='ml-4' error={filterFormInputsErrors(ERRORS.DISCOUNT_IS_REQUIRED) || errors.includes(ERRORS.DISCOUNT_IS_NOT_A_NUMBER)}/>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </DefaultLayout>
-        </div>
+                        <div className='w-full flex flex-col mt-8 '>
+                            {filterFormInputsErrors(ERRORS.COLORS_IS_REQUIRED) && <span className='text-xs mb-2 text-red-600 font-medium'>{filterFormInputsErrors(ERRORS.COLORS_IS_REQUIRED)}</span>}
+                            <div className='w-full flex'>
+                                {renderColorsItems()}
+                            </div>
+                        </div>
+                        <div className='w-full flex flex-col mt-8 overflow-auto pb-5 scrollbar'>
+                            {filterFormInputsErrors(ERRORS.PHOTOS_IS_REQUIRED) && <span className='text-xs mb-2 text-red-600 font-medium'>{filterFormInputsErrors(ERRORS.PHOTOS_IS_REQUIRED)}</span>}
+                            <div className='w-full flex'>
+                                {renderPhotosItems()}
+                            </div>
+                        </div>
+                        <div className='w-full flex justify-end mt-10'>
+                            <PrimaryButton title='SAVE' type='submit' onClick={onSubmit} className='w-1/6 bg-blue'/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </DefaultLayout>
     );
 };
