@@ -1,10 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export const SidebarLink = ({ title, icon, to }) => {
-    
     const location = useLocation();
 
     return (

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { addBrand, deleteBrand } from '../store/brandsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { BrandItem } from '../components/BrandItem';
-import { DefaultLayout } from '../layouts/DefaultLayout';
-import { Input } from '../components/inputs/Input';
-import axios from 'axios';
-import { config } from './../config/Config';
 import { toast } from 'react-toastify';
-
+import { createBrandService } from '@services/createBrand.service';
+import { deleteBrandByIdService } from '@services/deleteBrandById.service';
+import { BrandItem } from '@components/BrandItem';
+import locales from '@constants/locales';
+import { DefaultLayout } from '@layouts/DefaultLayout';
+import { Input } from '@components/Inputs/Input';
 export const Brands = () => {
 
     const [brand, setBrand] = useState('');
@@ -22,14 +20,11 @@ export const Brands = () => {
     const handleBrandInput = (e) => {
         setBrand(e.target.value);
     };
-
-
     const addNewBrand = async () => {
         try {
-            await axios.post(config.apiUrl + 'brands/', {
-                name:brand
-            }).then(res => {return dispatch(addBrand(res.data));});
-            toast.success('Brand has been added');
+            const res = await createBrandService(brand);
+            dispatch(addNewBrand(res.data));
+            toast.success(locales.BRAND_HAS_BEEN_ADDED);
             setBrand('');
         } catch (error) {
             toast.error(error.response.data.errors[0].msg);
@@ -38,9 +33,9 @@ export const Brands = () => {
     };
 
     const removeBrand = async (id) => {
-        await axios.delete(config.apiUrl + `brands/${id}`);
-        await dispatch(deleteBrand(id));
-        toast.success('Brand has been deleted');
+        await deleteBrandByIdService(id);
+        dispatch(deleteBrandByIdService(id));
+        toast.success(locales.BRAND_HAS_BEEN_DELETED);
     };
 
     const renderBrandsItems = () => {
@@ -61,10 +56,10 @@ export const Brands = () => {
             <div className='w-2/3 mx-auto h-[40vh] rounded-md bg-white shadow-3xl mb-10'>
                 <form onSubmit={onSubmit}>
                     <div className='w-full p-16'>
-                        <h1 className='text-3xl font-semibold mb-12 text-blue'>Brands</h1>
+                        <h1 className='text-3xl font-semibold mb-12 text-blue'>{locales.BRANDS}</h1>
                         <div className='w-full flex justify-between'>
                             <div className='basis-1/2 mr-16'>
-                                <Input id='brand' title='Brand' type='text' value={brand} onChange={handleBrandInput}/>
+                                <Input id='brand' title={locales.BRAND} type='text' value={brand} onChange={handleBrandInput}/>
                             </div>
                             <div className='basis-1/2 h-full rounded-md'>
                                 <div className='max-h-[15vh] flex flex-col overflow-auto scrollbar shadow-inner p-4'>

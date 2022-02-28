@@ -1,5 +1,4 @@
-import { DefaultLayout } from '../layouts/DefaultLayout';
-import { Products } from './Products';
+import { DefaultLayout } from '@layouts/DefaultLayout';
 import React from 'react';
 
 export const Homepage = () => {

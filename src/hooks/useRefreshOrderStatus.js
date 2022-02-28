@@ -1,16 +1,15 @@
 import React from 'react';
-import axios from 'axios';
-import { changeOrderStatus } from '../store/ordersSlice';
-import { config } from '../config/Config';
 import { useDispatch } from 'react-redux';
+import { changeOrderStatusService } from '@services/changeOrderStatus.service';
+import { changeOrderStatus } from '@state/orders/ordersSlice';
 
 export const useRefreshOrderStatus = () => {
-    
     const dispatch = useDispatch();
 
-    const refresh = async (params, status) => {
+    const refresh = async (id, status) => {
         try {
-            await axios.post(config.apiUrl + `orders/change-status/${params}`, {status}).then(res => { return dispatch(changeOrderStatus(res.data)); });
+            const res = await changeOrderStatusService(id, status);
+            dispatch(changeOrderStatus(res.data));
         } catch (error) {
             console.log(error.response);
         }

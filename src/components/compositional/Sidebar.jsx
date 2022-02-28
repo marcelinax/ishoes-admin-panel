@@ -1,22 +1,28 @@
-import {BiBold, BiBox, BiDetail, BiHome, BiStore} from 'react-icons/bi';
-
-import {BiCog} from 'react-icons/bi';
-import { Logo } from '../global/Logo';
+import { BiBold, BiBox, BiDetail, BiHome, BiStore, BiCog } from 'react-icons/bi';
 import React from 'react';
-import { SidebarLink } from '../global/SidebarLink';
+import locales from '@constants/locales';
+import { Logo } from '@components/global/Logo';
+import { SidebarLink } from '@components/global/SidebarLink';
+import sizes from '@constants/sizes';
+import colors from '@themes/colors';
 
 export const Sidebar = () => {
+
+    const getClassNameForSidebarkLinks = () => {
+        return 'group-hover:fill-blue transition-all';
+    };
+
     return (
         <div className='w-1/12 h-screen fixed border-r-2 border-gray border-opacity-10 shadow-xl left-0 top-0'>
             <div className='w-full p-6'>
                 <Logo/>
                 <div className='w-full flex flex-col mt-20'>
-                    <SidebarLink title='Home' to='/' icon={<BiHome fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
-                    <SidebarLink title='Shop' to='/shop' icon={<BiStore fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
-                    <SidebarLink title='Products' to='/products' icon={<BiBox fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
-                    <SidebarLink title='Orders' to='/orders' icon={<BiDetail fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
-                    <SidebarLink title='Brands' to='/brands' icon={<BiBold fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
-                    <SidebarLink title='Settings' to='/settings' icon={<BiCog fill='#aaaaaf' size={24} className='group-hover:fill-blue transition-all'/>}/>
+                    <SidebarLink title={locales.HOME} to='/' icon={<BiHome fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
+                    <SidebarLink title={locales.SHOP} to='/shop' icon={<BiStore fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
+                    <SidebarLink title={locales.PRODUCTS} to='/products' icon={<BiBox fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
+                    <SidebarLink title={locales.ORDERS} to='/orders' icon={<BiDetail fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
+                    <SidebarLink title={locales.BRANDS} to='/brands' icon={<BiBold fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
+                    <SidebarLink title={locales.SETTINGS} to='/settings' icon={<BiCog fill={colors.DARK_GRAY} size={sizes.ICON_24} className={getClassNameForSidebarkLinks()}/>}/>
                 </div>
             </div>
            

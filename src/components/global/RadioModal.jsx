@@ -1,10 +1,11 @@
 import { BiTask } from 'react-icons/bi';
-import { PrimaryButton } from './PrimaryButton';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { SecondaryButton } from './SecondaryButton';
+import { Button } from '@components/global/Button';
+import locales from '@constants/locales';
+import buttonTypes from '@constants/buttonTypes';
 
-export const RadioModal = ({children, title, description, closeModal, onSaveClick}) => {
+export const RadioModal = ({ children, title, description, closeModal, onSaveClick }) => {
     return (
         <div className='fixed top-0 left-0 h-screen w-screen z-10 bg-neutral-500/80 flex justify-center items-center'>
             <div className='w-1/6 h-[50vh] bg-white shadow-lg rounded-md'>
@@ -18,8 +19,8 @@ export const RadioModal = ({children, title, description, closeModal, onSaveClic
                         {children}
                     </div>
                     <div className='w-full flex flex-col '>
-                        <PrimaryButton title='Save' type='button' className='w-full bg-blue' onClick={onSaveClick}/>
-                        <SecondaryButton title='Cancel' type='button' onClick={closeModal} className='w-full hover:font-semibold' />
+                        <Button title={locales.SAVE} type='button' bgColor='bg-blue' buttonType={buttonTypes.TEXT_BUTTON} onClick={onSaveClick} className='w-full'/>
+                        <Button title={locales.CANCEL} type='button' bgColor='bg-blue' buttonType={buttonTypes.FLAT_BUTTON} onClick={closeModal} className='w-full hover:font-semibold'/>
                     </div>
                 </div>
             </div>

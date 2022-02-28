@@ -1,11 +1,8 @@
-import * as tus from 'tus-js-client';
-
 import { BiPlus, BiX } from 'react-icons/bi';
 import React, { useEffect, useState } from 'react';
-
-import { Spinner } from './Spinner';
-import axios from 'axios';
-import { config } from './../../config/Config';
+import { Spinner } from '@components/global/Spinner';
+import { config } from '@config/config';
+import { uploadImageService } from '@services/uploadImage.service';
 
 export const PhotoItem = ({ onFileUpload, onFileRemove, value}) => {
     
@@ -35,15 +32,9 @@ export const PhotoItem = ({ onFileUpload, onFileRemove, value}) => {
 
     const uploadFile = async () => {
         setLoading(true);
-        
         const formData = new FormData();
         formData.append('file', file);
-        const res = await axios.post(config.apiUrl + 'files/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
+        const res = await uploadImageService(formData);
         const fileUrl = config.apiUrl + res.data.url;
         setUploadUrl(fileUrl);
         onFileUpload(fileUrl);

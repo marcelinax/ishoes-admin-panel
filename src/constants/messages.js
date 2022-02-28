@@ -1,0 +1,16 @@
+export default {
+    MODEL_IS_REQUIRED: 'Enter a model',
+    SIZE_IS_REQUIRED: 'Choose size',
+    TYPE_IS_REQUIRED: 'Choose type',
+    BRAND_IS_REQUIRED: 'Choose brand',
+    MATERIAL_IS_REQUIRED: 'Choose material',
+    GENDER_IS_REQUIRED: 'Choose gender',
+    COLORS_IS_REQUIRED: 'Choose at least one color',
+    PHOTOS_IS_REQUIRED: 'Choose at least one photo',
+    AMOUNT_IS_REQUIRED: 'Enter an amount',
+    AMOUNT_IS_NOT_A_NUMBER: 'Invalid amount form',
+    PRICE_IS_REQUIRED: 'Enter price',
+    PRICE_IS_NOT_A_NUMBER: 'Invalid price form',
+    DISCOUNT_IS_REQUIRED: 'Enter discount',
+    DISCOUNT_IS_NOT_A_NUMBER: 'Invalid discount form',
+};

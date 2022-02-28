@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export const Checkbox = ({title, className, value, onChange, iconClassName }) => {
-
     return (
         <div className={`flex cursor-pointer items-center ${className}`} onClick={onChange}>
             <div className='w-4 h-4 border-2 border-zinc-200 rounded-md flex items-center justify-center'>

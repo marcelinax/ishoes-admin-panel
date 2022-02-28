@@ -22,7 +22,7 @@
       }
 }
 
-.MuiOutlinedInput-notchedOutline, .MuiOutlinedInput-notchedOutline {
+.MuiOutlinedInput-notchedOutline {
     border-color: #e4e4e7 !important;
     border-width: 2px !important;
 }
@@ -45,40 +45,34 @@
 }
 
 
-@layer utilities {
-    .scrollbar::-webkit-scrollbar {
+.scrollbar{
+    &::-webkit-scrollbar {
         width: 8px;
         height: 10px;
-      }
-  
-      .scrollbar::-webkit-scrollbar-track {
+    }
+    &::-webkit-scrollbar-track {
         background:  #d6d3d1;
         border-radius: 20px;
-      }
-  
-      .scrollbar::-webkit-scrollbar-thumb {
+    }
+    &::-webkit-scrollbar-thumb {
         background:#aaaaaf;
         border-radius: 20px;
-      }
+    }
+}
 
-    
-  }
-  
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-  }
-
+input {
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
 .spinner{
     animation: 2s rotateSpinnerLoader Infinite;
 }
-
-
-.sidebar-link--active > svg{
-    fill: #5c61ed;
-}
-
-.sidebar-link--active p{
-    color: #5c61ed ;
+.sidebar-link {
+    &--active{
+        svg, p {
+            fill: #5c61ed;
+        }
+    }
 }

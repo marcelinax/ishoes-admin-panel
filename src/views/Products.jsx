@@ -1,31 +1,33 @@
-import { GENDERS, LEGENDS, SORT_BY, TYPES } from './../Constants';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { BiInfoCircle } from 'react-icons/bi';
-import { Checkbox } from './../components/inputs/Checkbox';
-import { DefaultLayout } from './../layouts/DefaultLayout';
-import { Filter } from '../components/filter/Filter';
-import { FilterItem } from '../components/filter/FilterItem';
-import { Legend } from './../components/global/Legend';
 import MenuItem from '@mui/material/MenuItem';
-import { Pagination } from '../components/global/Pagination';
-import { ProductCard } from './../components/ProductCard';
-import { Search } from '../components/global/Search';
-import { SelectInput } from '../components/inputs/SelectInput';
-import axios from 'axios';
-import { calcProductPrice } from './../utils/calcProductPrice';
-import { config } from './../config/Config';
-import { deleteShoeProduct } from '../store/shoeProductsSlice';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useRefreshShoeProducts } from '../hooks/useRefreshShoeProducts';
+import { useRefreshShoeProducts } from '@hooks/useRefreshShoeProducts';
+import shoeTypes from '@constants/shoeTypes';
+import { ProductCard } from '@components/ProductCard';
+import { calcProductPrice } from '@utils/calcProductPrice';
+import { deleteShoeProduct } from '@state/shoe-products/shoeProductsSlice';
+import { deleteShoeProductByIdService } from '@services/deleteShoeProductById.service';
+import locales from '@constants/locales';
+import { Legend } from '@components/global/Legend';
+import { Checkbox } from '@components/Inputs/Checkbox';
+import genderTypes from '@constants/genderTypes';
+import { DefaultLayout } from '@layouts/DefaultLayout';
+import { Search } from '@components/global/Search';
+import { Filter } from '@components/Filter/Filter';
+import { SelectInput } from '@components/Inputs/SelectInput';
+import { FilterItem } from '@components/Filter/FilterItem';
+import { Pagination } from '@components/global/Pagination';
+import legendTypes from '@constants/legendTypes';
+import sortByTypes from '@constants/sortByTypes';
 
 export const Products = () => {
 
     const [selectedType, setSelectedType] = useState('All');
-    const [selectedBrand, setSelectedBrand] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('All');
     const [sortBy, setSortBy] = useState('all');
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
@@ -38,7 +40,6 @@ export const Products = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {refresh: refreshShoes} = useRefreshShoeProducts();
-
 
     useEffect(() => {
         renderProductCards();
@@ -55,9 +56,8 @@ export const Products = () => {
             sortBy,
             page
         });
-    }, [selectedType, selectedBrand, search, genders, isOnSale,isOutOfStock,sortBy,page]);
+    }, [selectedType, selectedBrand, search, genders, isOnSale, isOutOfStock, sortBy, page]);
     
-
     const onSelectedTypeChange = (e) => {
         setSelectedType(e.target.value);
     };
@@ -73,7 +73,7 @@ export const Products = () => {
     };
 
     const renderSelectTypeOptions = () => {
-        return TYPES.types.map(type => {return (
+        return shoeTypes.map(type => {return (
             <MenuItem key={type} value={type}>{type}</MenuItem>
         );});
     };
@@ -93,12 +93,12 @@ export const Products = () => {
     };
 
     const onDeleteProductShoeClick = async (id) => {
-        await axios.delete(config.apiUrl + `shoeProducts/${id}`);
-        await dispatch(deleteShoeProduct(id));
-        toast.success('Product has been deleted');
+        await deleteShoeProductByIdService(id);
+        dispatch(deleteShoeProduct(id));
+        toast.success(locales.PRODUCT_HAS_BEEN_DELETED);
     };
 
-    const onEditClick = async (shoeProduct) => {
+    const onEditClick = (shoeProduct) => {
         navigate(`/edit-product/${shoeProduct._id}`);
     };
 
@@ -117,47 +117,44 @@ export const Products = () => {
     };
 
     const getLegendsByParam = (param) => {
-        return LEGENDS.legends.filter(legend => { return legend.title === param; }).map((legend, index) => (
+        return legendTypes.filter(legend => legend.title === param).map((legend, index) => (
             <Legend color={legend.color} content={legend.content} key={index} />
         ));
     };
     const setLegendsForShoeProducts = (shoeProduct) => {
         const legends = [];
         if (shoeProduct.amount === 0) {
-            legends.push(LEGENDS.legendsTitles.OUT_OF_STOCK);
+            legends.push(legendTypes[0].title);
         }
         if (shoeProduct.amount <= 5) {
-            legends.push(LEGENDS.legendsTitles.LAST_PAIRS);
+            legends.push(legendTypes[3].title);
         }
         if (shoeProduct.isOnSale) {
-            legends.push(LEGENDS.legendsTitles.ON_SALE);
+            legends.push(legendTypes[1].title);
         }
         if (moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7, 'days').format('DD:MM:YYYY')) {
-            legends.push(LEGENDS.legendsTitles.NEW);
+            legends.push(legendTypes[2].title);
         }
-       
         return legends.map(legend =>getLegendsByParam(legend));
     };
 
     const renderLegendsItems = () => {
-        return LEGENDS.legends.map(legend => {return (
+        return legendTypes.map(legend => (
             <Legend className='mb-2' color={legend.color} title={legend.title} content={legend.content} key={legend.title}/>
-        );});
+        ));
     };
 
     const renderGendersCheckboxes = () => {
-        return GENDERS.genders.map(gender => {return (
-            <Checkbox key={gender} title={gender} onChange={()=>{return onGenderChange(gender);}} value={genders.includes(gender)} className='mr-3'/>
+        return genderTypes.map(gender => {return (
+            <Checkbox key={gender} title={gender} onChange={() => onGenderChange(gender)} value={genders.includes(gender)} className='mr-3'/>
         );});
     };
 
     const renderSortByItems = () => {
-        return Object.values(SORT_BY).map(item => {return (
+        return Object.values(sortByTypes).map(item => (
             <MenuItem key={item} value={item}>{item}</MenuItem>
-        );});
+        ));
     };
-
-    
 
     return (
         <DefaultLayout className='mt-20 flex flex-col'>
@@ -166,37 +163,37 @@ export const Products = () => {
                     <div className='basis-5/6'>
                         <div className='w-full flex'>
                             <div className='basis-4/5 mb-10 justify-between flex items-center'>
-                                <Search id='search' placeholder='Search...' value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
+                                <Search id='search' placeholder={locales.SEARCH} value={search} onChange={handleSearchInput} className='basis-1/2 mr-12' />
                                 <div className='basis-1/2'>
-                                    <SelectInput name='type' value={selectedType} label="Type" onChange={onSelectedTypeChange} className='w-1/3 !mr-5'>
+                                    <SelectInput name='type' value={selectedType} label={locales.TYPE} onChange={onSelectedTypeChange} className='w-1/3 !mr-5'>
                                         {renderSelectTypeOptions()}
                                     </SelectInput>
-                                    <SelectInput name='brand' value={selectedBrand} label="Brand" onChange={onSelectedBrandChange} className='w-1/3'>
+                                    <SelectInput name='brand' value={selectedBrand} label={locales.BRAND} onChange={onSelectedBrandChange} className='w-1/3'>
+                                        <MenuItem key='all' value='All'>{locales.ALL}</MenuItem>
                                         {renderSelectBrandOptions()}
                                     </SelectInput>
                                 </div>
                             </div>
-                            
                         </div>
                         <div className='w-full flex'>
-                            <FilterItem title='Gender' className='mr-10'>
+                            <FilterItem title={locales.GENDER} className='mr-10'>
                                 {renderGendersCheckboxes()}
                             </FilterItem>
-                            <FilterItem title='On sale' className='mr-10'>
-                                <Checkbox title='Yes' value={isOnSale} onChange={()=> {return setIsOnSale(true);}} className='mr-3'/>
-                                <Checkbox title='No' value={isOnSale === false} onChange={()=> {return setIsOnSale(false);}} className='mr-3'/>
-                                <Checkbox title='All' value={isOnSale === null} onChange={()=> {return setIsOnSale(null);}}/>
+                            <FilterItem title={locales.ON_SALE} className='mr-10'>
+                                <Checkbox title={locales.YES} value={isOnSale} onChange={() =>setIsOnSale(true)} className='mr-3'/>
+                                <Checkbox title={locales.NO} value={isOnSale === false} onChange={() => setIsOnSale(false)} className='mr-3'/>
+                                <Checkbox title='All' value={isOnSale === null} onChange={ () => setIsOnSale(null)}/>
                             </FilterItem>
-                            <FilterItem title='Out of stock' >
-                                <Checkbox title='Yes' value={isOutOfStock === true} onChange={()=> {return setIsOutOfStock(true);}} className='mr-3'/>
-                                <Checkbox title='No' value={isOutOfStock === false} onChange={()=> {return setIsOutOfStock(false);}} className='mr-3'/>
-                                <Checkbox title='All' value={isOutOfStock === null} onChange={() => { return setIsOutOfStock(null); }} />
+                            <FilterItem title={locales.OUT_OF_STOCK} >
+                                <Checkbox title={locales.YES} value={isOutOfStock === true} onChange={() => setIsOutOfStock(true)} className='mr-3'/>
+                                <Checkbox title={locales.NO} value={isOutOfStock === false} onChange={() => setIsOutOfStock(false)} className='mr-3'/>
+                                <Checkbox title='All' value={isOutOfStock === null} onChange={() => setIsOutOfStock(null)}/>
                             </FilterItem>
                             <div />
                         </div>
                     </div>
                     <div className='basis-1/6 relative'>
-                        <BiInfoCircle className='absolute z-10 cursor-pointer top-0 right-0 fill-gray' size={20} onMouseOver={()=>{return setIsLegendShown(true);}} onMouseLeave={()=>{return setIsLegendShown(false);}}/>
+                        <BiInfoCircle className='absolute z-10 cursor-pointer top-0 right-0 fill-gray' size={20} onMouseOver={()=> setIsLegendShown(true)} onMouseLeave={()=> setIsLegendShown(false)}/>
                         <div className={`basis-1/5 transition-all flex flex-col ${isLegendShown ? 'opacity-100' : 'opacity-0'}`}>
                             {renderLegendsItems()}
                         </div>
@@ -204,7 +201,7 @@ export const Products = () => {
                 </Filter>
             </div>
             <div className='w-full px-4 flex mt-16 justify-end'>
-                <SelectInput name='sortBy' label='Sort by' value={sortBy} onChange={onSortByChange} className='w-1/12' >
+                <SelectInput name='sortBy' label={locales.SORT_BY} value={sortBy} onChange={onSortByChange} className='w-1/12' >
                     {renderSortByItems()}
                 </SelectInput>
             </div>

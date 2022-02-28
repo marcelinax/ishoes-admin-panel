@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Select from '@mui/material/Select';
 
-export const SelectInput = ({ value, onChange, name,label, children, className,error}) => {
+export const SelectInput = ({ value, onChange, name, label, children, className, error}) => {
     return (
         <FormControl className={`${className} relative`} >
             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
@@ -33,4 +33,5 @@ SelectInput.propTypes = {
     label: PropTypes.string,
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
+    error: PropTypes.string,
 };
