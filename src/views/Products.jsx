@@ -35,8 +35,8 @@ export const Products = () => {
     const [isLegendShown, setIsLegendShown] = useState(false);
     const [isOnSale, setIsOnSale] = useState(null);
     const [isOutOfStock, setIsOutOfStock] = useState(null);
-    const shoeProducts = useSelector(state => { return state.shoeProducts.shoeProducts; });
-    const brands = useSelector(state => {return state.brands.brands;});
+    const shoeProducts = useSelector(state => state.shoeProducts.shoeProducts);
+    const brands = useSelector(state => state.brands.brands);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {refresh: refreshShoes} = useRefreshShoeProducts();
@@ -135,7 +135,8 @@ export const Products = () => {
         if (moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7, 'days').format('DD:MM:YYYY')) {
             legends.push(legendTypes[2].title);
         }
-        return legends.map(legend =>getLegendsByParam(legend));
+        console.log(moment().format('DD:MM:YYYY') <= moment(shoeProduct.createdAt).add(7, 'days').format('DD:MM:YYYY'));
+        return legends.map(legend => getLegendsByParam(legend));
     };
 
     const renderLegendsItems = () => {
